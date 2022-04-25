@@ -1,0 +1,5 @@
+localhost, test.com {
+  encode zstd gzip
+  root * /srv
+  file_server
+}

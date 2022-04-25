@@ -1,0 +1,69 @@
+import React, { useState } from 'react'
+import { Button, Dropdown, Layout, Menu, Table } from 'antd'
+import Avatar from 'antd/lib/avatar/avatar'
+import { Content, Footer, Header } from 'antd/lib/layout/layout'
+import { Outlet, useNavigate } from 'react-router-dom'
+import Sider from 'antd/lib/layout/Sider'
+import SubMenu from 'antd/lib/menu/SubMenu'
+import { ProjectOutlined, UserOutlined } from '@ant-design/icons'
+
+const HomePage = () => {
+  const navigate = useNavigate()
+  const toUser = () => {
+    navigate('/user')
+  }
+  const menu = (
+    <Menu>
+      <Menu.Item>ok</Menu.Item>
+    </Menu>
+  )
+
+  const [currentProject, setCurrentProject] = useState()
+
+  return (
+    <>
+      <Layout>
+        <Header className="bg-white">
+          <div className="flex items-center justify-center">
+            <Dropdown overlay={menu} placement="bottomCenter">
+              <Button>{currentProject ? currentProject : '选择项目'}</Button>
+            </Dropdown>
+            <div onClick={toUser}>
+              <Avatar className="cursor-pointer"></Avatar>
+            </div>
+          </div>
+        </Header>
+        <Layout className="flex-row">
+          <Sider theme="light" className="bg-cyan-200">
+            <Menu mode="inline">
+              <SubMenu key="project" icon={<ProjectOutlined />} title="项目管理">
+                <Menu.Item
+                  key="city"
+                  onClick={() => {
+                    navigate('/city')
+                  }}
+                >
+                  区域
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key="user"
+                icon={<UserOutlined />}
+                title="员工管理"
+                onTitleClick={() => {
+                  navigate('/user')
+                }}
+              ></SubMenu>
+            </Menu>
+          </Sider>
+          <Content className="bg-cyan-50">
+            <Outlet />
+          </Content>
+        </Layout>
+        <Footer>footer</Footer>
+      </Layout>
+    </>
+  )
+}
+
+export default HomePage
