@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import LoginPage from 'pages/login/login'
 import HomePage from 'pages/home/home'
 import UserComponent from 'pages/User/user'
-import AddUserComponent from 'pages/User/add_user'
+import AddUserModal from 'pages/User/add_user'
 
 const Router = () => {
   return (
@@ -13,7 +13,7 @@ const Router = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="" element={<HomePage />}>
             <Route path="user" element={<UserComponent />}></Route>
-            <Route path="user/add" element={<AddUserComponent />} />
+            <Route path="user/add" element={<AddUserModal />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,50 +1,84 @@
 import React from 'react'
 import { LeftOutlined } from '@ant-design/icons'
-import { Alert, Button, Form, Input, Modal } from 'antd'
+import { Alert, Button, Form, Input, Modal, notification, Radio } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import API from 'api'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { State } from 'store/reducers'
+import { DefaultPassword, ErrCode, UserLevel } from 'api/constants'
+import { openUserModal } from 'store/reducers/users'
+import { useEffect } from 'react'
 const { Item } = Form
 
-const AddUserComponent = () => {
+const AddUserModal = () => {
   const navigate = useNavigate()
   const [userForm] = Form.useForm()
 
-  const submit = () => {
-    console.log(userForm.getFieldsValue())
-    let user = userForm.getFieldsValue()
-    API.addUser(user)
+  const submit = () =>
+    userForm.validateFields().then(() => {
+      let user = userForm.getFieldsValue()
+
+      API.addUser(user).then(res => {
+        const code = res.data.code
+        switch (code) {
+          case ErrCode.DBError:
+            // 提示用户已存在
+            notification.error({
+              message: '用户已存在，请勿重复添加。'
+            })
+            break
+          default:
+            // 提示成功
+            notification.success({
+              message: '添加用户 ' + user.name + ' 成功。'
+            })
+            cancel()
+            break
+        }
+      })
+    })
+  const dispatch = useDispatch()
+  const cancel = () => {
+    dispatch(openUserModal(false))
   }
+  const visible = useSelector((state: State) => state.users.showModal)
+  useEffect(() => {
+    if (visible) {
+      userForm.resetFields()
+    }
+  }, [visible])
+
   return (
-    <Modal >
-      添加用户
-      <Button shape="circle" icon={<LeftOutlined />} onClick={() => navigate(-1)}></Button>
-      <Form labelCol={{ span: 2 }} wrapperCol={{ span: 16 }} form={userForm} onFinish={submit}>
-        <Item name="username" label="用户名">
+    <Modal title="添加用户" visible={visible} onCancel={cancel} onOk={submit}>
+      <Form
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 16 }}
+        form={userForm}
+        onFinish={submit}
+        initialValues={{ level: UserLevel.Normal }}
+      >
+        <Item name="username" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
           <Input />
         </Item>
-        <Alert message="密码默认为： 12345678，用户登录之后自行修改密码。" type="info" />
-        <Item name="name" label="姓名">
+        <div className="mb-6 ml-6 mr-16">
+          <Alert message={`默认密码： ${DefaultPassword}，用户登录之后自行修改密码。`} type="info" />
+        </div>
+        <Item name="name" label="姓名" rules={[{ required: true, message: '请输入姓名' }]}>
           <Input />
         </Item>
-        <Item name="phone" label="手机号码">
+        <Item name="phone" label="手机号码" rules={[{ required: true, message: '请输入手机号' }]}>
           <Input />
         </Item>
-        <Item name="email" label="邮箱">
-          <Input />
-        </Item>
-        <Item name="dept" label="部门">
-          <Input />
-        </Item>
-        <Item name="post" label="职位">
-          <Input />
-        </Item>
-        <Item>
-          <Button htmlType="submit">提交</Button>
+
+        <Item name="level" label="角色" rules={[{ required: true, message: '请选择角色' }]}>
+          <Radio.Group>
+            <Radio value={UserLevel.Normal}>普通用户</Radio>
+            <Radio value={UserLevel.Admin}>管理员</Radio>
+          </Radio.Group>
         </Item>
       </Form>
     </Modal>
   )
 }
 
-export default AddUserComponent
+export default AddUserModal

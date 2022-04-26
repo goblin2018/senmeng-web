@@ -1,22 +1,25 @@
 import React from 'react'
 import { Button } from 'antd'
-import AddUserComponent from './add_user'
+import AddUserModal from './add_user'
 import UserTableComponent from './user_table'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { openUserModal } from 'store/reducers/users'
 
 const UserComponent = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   return (
     <>
       <Button
         onClick={() => {
-          navigate('/user/add')
+          dispatch(openUserModal(true))
         }}
       >
         添加用户
       </Button>
-      This is user
       <UserTableComponent />
+      <AddUserModal />
     </>
   )
 }

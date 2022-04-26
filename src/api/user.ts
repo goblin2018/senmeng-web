@@ -47,7 +47,9 @@ export const delUser = (user: User) => {
   return http({
     method: 'DELETE',
     url: userUrl,
-    data: user
+    data: {
+      id: user.id
+    }
   })
 }
 

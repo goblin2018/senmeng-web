@@ -9,8 +9,9 @@ export const Events = {
 
 export const ErrCode = {
   OK: 200,
-  TokenTimeout: 1001,
-  TokenError: 1002
+  TokenTimeout: 1051,
+  TokenError: 1050,
+  DBError: 2000
 }
 
 export const UserLevel = {
@@ -22,3 +23,5 @@ export const UserStatus = {
   Normal: 1,
   Denied: 2
 }
+
+export const DefaultPassword = 'sengmeng66'

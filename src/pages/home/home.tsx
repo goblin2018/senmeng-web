@@ -46,17 +46,18 @@ const HomePage = () => {
                   区域
                 </Menu.Item>
               </SubMenu>
-              <SubMenu
+              <Menu.Item
                 key="user"
                 icon={<UserOutlined />}
-                title="员工管理"
-                onTitleClick={() => {
+                onClick={() => {
                   navigate('/user')
                 }}
-              ></SubMenu>
+              >
+                员工管理
+              </Menu.Item>
             </Menu>
           </Sider>
-          <Content className="bg-cyan-50">
+          <Content className="bg-cyan-50 p-6">
             <Outlet />
           </Content>
         </Layout>
