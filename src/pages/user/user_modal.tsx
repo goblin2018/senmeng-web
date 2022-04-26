@@ -10,7 +10,7 @@ import { openUserModal } from 'store/reducers/users'
 import { useEffect } from 'react'
 const { Item } = Form
 
-const AddUserModal = () => {
+const UserModal = () => {
   const navigate = useNavigate()
   const [userForm] = Form.useForm()
 
@@ -81,4 +81,4 @@ const AddUserModal = () => {
   )
 }
 
-export default AddUserModal
+export default UserModal

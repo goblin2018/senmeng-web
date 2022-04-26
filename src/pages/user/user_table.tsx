@@ -7,7 +7,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { State } from 'store/reducers'
-import { UpdateUserList } from 'store/reducers/users'
+import { updateUserList } from 'store/reducers/users'
 
 const UserTableComponent = () => {
   const dispatch = useDispatch()
@@ -17,7 +17,7 @@ const UserTableComponent = () => {
   useEffect(() => {
     API.listUser().then(res => {
       let data = res.data
-      dispatch(UpdateUserList(data.items, data.total))
+      dispatch(updateUserList(data.items, data.total))
     })
   }, [])
 

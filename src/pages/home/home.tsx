@@ -5,7 +5,7 @@ import { Content, Footer, Header } from 'antd/lib/layout/layout'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Sider from 'antd/lib/layout/Sider'
 import SubMenu from 'antd/lib/menu/SubMenu'
-import { ProjectOutlined, UserOutlined } from '@ant-design/icons'
+import { AuditOutlined, CodepenOutlined, ProjectOutlined, UserOutlined } from '@ant-design/icons'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -36,16 +36,24 @@ const HomePage = () => {
         <Layout className="flex-row">
           <Sider theme="light" className="bg-cyan-200">
             <Menu mode="inline">
-              <SubMenu key="project" icon={<ProjectOutlined />} title="项目管理">
-                <Menu.Item
-                  key="city"
-                  onClick={() => {
-                    navigate('/city')
-                  }}
-                >
-                  区域
-                </Menu.Item>
-              </SubMenu>
+              <Menu.Item
+                key="materials"
+                icon={<CodepenOutlined />}
+                onClick={() => {
+                  navigate('/materials')
+                }}
+              >
+                物料管理
+              </Menu.Item>
+              <Menu.Item
+                key="supplier"
+                icon={<AuditOutlined />}
+                onClick={() => {
+                  navigate('/supplier')
+                }}
+              >
+                供应商管理
+              </Menu.Item>
               <Menu.Item
                 key="user"
                 icon={<UserOutlined />}

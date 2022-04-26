@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
-import AddUserModal from './add_user'
+import UserModal from './user_modal'
 import UserTableComponent from './user_table'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -19,7 +19,7 @@ const UserComponent = () => {
         添加用户
       </Button>
       <UserTableComponent />
-      <AddUserModal />
+      <UserModal />
     </>
   )
 }

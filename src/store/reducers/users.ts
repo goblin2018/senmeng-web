@@ -6,26 +6,26 @@ const Actions = {
   UpdateUserList: 'UpdateUserList'
 }
 
-export interface Users {
+export interface RUsers {
   showModal?: boolean
   items?: User[]
   total?: number
 }
 
-const initState: Users = {
+const initState: RUsers = {
   showModal: false,
   items: [],
   total: 0
 }
 
-export const openUserModal = (open: boolean): Action<Users> => ({
+export const openUserModal = (open: boolean): Action<RUsers> => ({
   type: Actions.OpenUserModal,
   payload: {
     showModal: open
   }
 })
 
-export const UpdateUserList = (items: User[], total: number): Action<Users> => ({
+export const updateUserList = (items: User[], total: number): Action<RUsers> => ({
   type: Actions.UpdateUserList,
   payload: {
     items: items,
@@ -33,7 +33,7 @@ export const UpdateUserList = (items: User[], total: number): Action<Users> => (
   }
 })
 
-const usersReducer = (state = initState, action: Action<Users>): Users => {
+const usersReducer = (state = initState, action: Action<RUsers>): RUsers => {
   switch (action.type) {
     case Actions.OpenUserModal:
       return {
