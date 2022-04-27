@@ -1,4 +1,6 @@
+import API from 'api'
 import { Action } from 'api/action'
+import { ListOpt } from 'api/listopt'
 import { Supplier } from 'api/supplier'
 
 export interface RSuppliers {
@@ -28,6 +30,22 @@ export const OpenSupplierModal = (open: boolean): Action<RSuppliers> => ({
     showModal: open
   }
 })
+
+export const listSupplier = (opt: ListOpt) => {
+  return dispatch => {
+    API.listSupplier(opt).then(res => {
+      let items = res.data.items
+      if (items === null) {
+        dispatch(UpdateSupplierList([], res.data.total))
+        return
+      }
+      items.forEach(it => {
+        it.key = it.id
+      })
+      dispatch(UpdateSupplierList(items, res.data.total))
+    })
+  }
+}
 
 export const UpdateSupplierList = (items: Supplier[], total: number): Action<RSuppliers> => ({
   type: Actions.UpdateSupplierList,

@@ -49,7 +49,7 @@ const UserModal = () => {
   }, [visible])
 
   return (
-    <Modal title="添加用户" visible={visible} onCancel={cancel} onOk={submit}>
+    <Modal title="添加用户" visible={visible} onCancel={cancel} onOk={submit} getContainer={false}>
       <Form
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 16 }}

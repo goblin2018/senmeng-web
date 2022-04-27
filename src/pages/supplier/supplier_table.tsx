@@ -1,4 +1,4 @@
-import { Button, Popconfirm, Table } from 'antd'
+import { Button, notification, Popconfirm, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { ListOpt } from 'api/listopt'
@@ -6,24 +6,17 @@ import { Supplier } from 'api/supplier'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { State } from 'store'
-import { SetEditSupplier, UpdateSupplierList } from 'store/suppliers'
+import { listSupplier, SetEditSupplier, UpdateSupplierList } from 'store/suppliers'
+import { notifyCode } from 'utils/errcode'
 
 const SupplierTable = () => {
   const items = useSelector((state: State) => state.suppliers.items)
   const isEdit = useSelector((state: State) => state.suppliers.isEdit)
   const dispatch = useDispatch()
   useEffect(() => {
-    listSupplier({ offset: 0, limit: 10 })
+    dispatch(listSupplier({ offset: 0, limit: 10 }))
   }, [])
-  const listSupplier = (opt: ListOpt) => {
-    API.listSupplier(opt).then(res => {
-      let items = res.data.items
-      items.forEach(it => {
-        it.key = it.id
-      })
-      dispatch(UpdateSupplierList(res.data.items, res.data.total))
-    })
-  }
+
   const columns: ColumnsType<Supplier> = [
     {
       title: '序号',
@@ -58,7 +51,7 @@ const SupplierTable = () => {
             <Button type="link" onClick={() => editSupplier(record)}>
               编辑
             </Button>
-            <Popconfirm title="确定删除供应商？" onConfirm={() => delSupplier(record)}>
+            <Popconfirm title={`确定删除供应商 ${record.name} ？`} onConfirm={() => delSupplier(record)}>
               <Button danger type="text">
                 删除
               </Button>
@@ -74,14 +67,18 @@ const SupplierTable = () => {
 
   const delSupplier = (s: Supplier) => {
     API.delSupplier(s).then(res => {
+      notification.success({
+        message: '操作成功',
+        description: `删除供应商 ${s.name} 成功。`
+      })
       // 更新列表
-      listSupplier({ offset: 0, limit: 10 })
+      dispatch(listSupplier({ offset: 0, limit: 10 }))
     })
   }
 
   return (
     <>
-      <Table columns={columns} dataSource={items} bordered />
+      <Table columns={columns} dataSource={items} bordered size="middle" pagination={false} />
     </>
   )
 }

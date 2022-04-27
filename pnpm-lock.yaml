@@ -24,6 +24,7 @@ specifiers:
   react-router-dom: ^6.2.1
   react-to-print: ^2.14.4
   redux: ^4.1.2
+  redux-logger: ^3.0.6
   redux-thunk: ^2.4.1
   tailwindcss: ^3.0.22
   typescript: ^4.5.4
@@ -42,6 +43,7 @@ dependencies:
   react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
   react-to-print: 2.14.4_react-dom@17.0.2+react@17.0.2
   redux: 4.1.2
+  redux-logger: 3.0.6
   redux-thunk: 2.4.1_redux@4.1.2
   xlsx: 0.18.2
 
@@ -1118,6 +1120,10 @@ packages:
     dependencies:
       ms: 2.1.2
     dev: true
+
+  /deep-diff/0.3.8:
+    resolution: {integrity: sha1-wB3mPvsO7JeYgB1Ax+Da4ltYLIQ=}
+    dev: false
 
   /deep-is/0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
@@ -3107,6 +3113,12 @@ packages:
       slash: 3.0.0
       tslib: 1.14.1
     dev: true
+
+  /redux-logger/3.0.6:
+    resolution: {integrity: sha1-91VZZvMJjzyIYExEnPC69XeCdL8=}
+    dependencies:
+      deep-diff: 0.3.8
+    dev: false
 
   /redux-thunk/2.4.1_redux@4.1.2:
     resolution: {integrity: sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q==}

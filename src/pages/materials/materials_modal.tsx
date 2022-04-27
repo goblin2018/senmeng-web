@@ -23,7 +23,7 @@ const MaterialsModal = () => {
     })
   return (
     <>
-      <Modal visible={visible} onCancel={cancel} onOk={submit} title="添加物料">
+      <Modal visible={visible} onCancel={cancel} onOk={submit} title="添加物料" getContainer={false}>
         <Form form={mForm} labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} initialValues={{ unit: 'pcs' }}>
           <Item label="物料名称" name="name" rules={[{ required: true, message: '请输入物料名称' }]}>
             <Input />

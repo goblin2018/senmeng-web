@@ -18,3 +18,9 @@ code {
   background-image: initial;
   background-color: rgb(24, 144, 255);
 }
+.ant-pagination-item-link {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px !important;
+}

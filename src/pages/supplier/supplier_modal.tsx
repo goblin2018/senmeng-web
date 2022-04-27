@@ -1,11 +1,10 @@
 import { Form, Input, message, Modal, notification } from 'antd'
 import API from 'api'
-import { ErrCode } from 'api/constants'
 import { Supplier } from 'api/supplier'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { State } from 'store'
-import { OpenSupplierModal } from 'store/suppliers'
+import { listSupplier, OpenSupplierModal } from 'store/suppliers'
 import { notifyCode } from 'utils/errcode'
 
 const { Item } = Form
@@ -15,6 +14,7 @@ const SupplierModal = () => {
   const isEdit = useSelector((state: State) => state.suppliers.isEdit)
   const editSupplier = useSelector((state: State) => state.suppliers.editSupplier)
   const [sForm] = Form.useForm()
+  const [inputs, setInputs] = useState<HTMLInputElement[]>([])
   const cancel = () => {
     dispatch(OpenSupplierModal(false))
   }
@@ -22,12 +22,23 @@ const SupplierModal = () => {
   useEffect(() => {
     // 打开
     if (visible) {
+      let tmpIs: HTMLInputElement[] = []
+      const is = document.getElementsByClassName('iii')
+      for (let i = 0; i < is.length; i++) {
+        tmpIs.push(is[i] as HTMLInputElement)
+      }
+      setInputs(tmpIs)
+      console.log('focus ', tmpIs[0])
+      setTimeout(() => {
+        tmpIs[0].focus()
+      })
       if (isEdit) {
         // 编辑 设置初始化值
         sForm.setFieldsValue(editSupplier)
       }
     } else {
       // 关闭
+
       sForm.resetFields()
     }
   }, [visible, isEdit])
@@ -48,7 +59,7 @@ const SupplierModal = () => {
         API.updateSupplier(nS).then(res => {
           let r = notifyCode(res.data.code, '修改供应商成功!', '修改供应商失败，已存在相同的供应商信息。')
           if (r) {
-            API.listSupplier({ offset: 0, limit: 10 })
+            dispatch(listSupplier({ offset: 0, limit: 10 }))
             cancel()
           }
         })
@@ -62,21 +73,35 @@ const SupplierModal = () => {
             `添加供应商 ${s.name} 失败，已存在相同的供应商信息。`
           )
           if (r) {
-            API.listSupplier({ offset: 0, limit: 10 })
+            dispatch(listSupplier({ offset: 0, limit: 10 }))
             cancel()
           }
         })
       }
     })
+
+  // 捕获enter键
+  const handleKeyUp = e => {
+    if (e.keyCode !== 13) {
+      return
+    }
+    let index = inputs.indexOf(e.target)
+    if (index < inputs.length - 1) {
+      let it = inputs[index + 1]
+      it.focus()
+    } else {
+      submit()
+    }
+  }
   return (
     <>
-      <Modal visible={visible} title={isEdit ? '编辑供应商' : '添加供应商'} onCancel={cancel} onOk={submit}>
-        <Form form={sForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }}>
+      <Modal visible={visible} title={isEdit ? '编辑供应商' : '添加供应商'} onCancel={cancel} onOk={submit} forceRender>
+        <Form form={sForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }} onKeyUp={handleKeyUp}>
           <Item label="供应商编码" name="supplier_id" rules={[{ required: true, message: '请输入供应商编码' }]}>
-            <Input />
+            <Input className="iii" />
           </Item>
           <Item label="供应商名称" name="name" rules={[{ required: true, message: '请输入供应商名称' }]}>
-            <Input />
+            <Input className="iii" />
           </Item>
         </Form>
       </Modal>
