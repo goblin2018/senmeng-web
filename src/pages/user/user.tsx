@@ -4,7 +4,7 @@ import UserModal from './user_modal'
 import UserTableComponent from './user_table'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { openUserModal } from 'store/reducers/users'
+import { openUserModal } from 'store/users'
 
 const UserComponent = () => {
   const navigate = useNavigate()

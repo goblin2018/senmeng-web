@@ -1,3 +1,4 @@
+import { LoginOutlined } from '@ant-design/icons'
 import { Button, notification, Popconfirm, Table, Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
@@ -6,8 +7,8 @@ import { User } from 'api/user'
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store/reducers'
-import { updateUserList } from 'store/reducers/users'
+import { State } from 'store'
+import { updateUserList } from 'store/users'
 
 const UserTableComponent = () => {
   const dispatch = useDispatch()
@@ -15,8 +16,16 @@ const UserTableComponent = () => {
   const items = useSelector((state: State) => state.users.items)
 
   useEffect(() => {
+    console.log('before get data')
+
     API.listUser().then(res => {
+      console.log('after get data')
+
       let data = res.data
+      let items = res.data.items
+      items.forEach(it => {
+        it.key = it.id
+      })
       dispatch(updateUserList(data.items, data.total))
     })
   }, [])

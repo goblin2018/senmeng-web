@@ -1,7 +1,7 @@
 import { Button } from 'antd'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { openMaterialsModal } from 'store/reducers/materials'
+import { openMaterialsModal } from 'store/materials'
 import MaterialsModal from './materials_modal'
 import MaterialsTable from './materials_table'
 

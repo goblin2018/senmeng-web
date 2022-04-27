@@ -22,7 +22,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Layout>
+      <Layout className="h-screen">
         <Header className="bg-white">
           <div className="flex items-center justify-center">
             <Dropdown overlay={menu} placement="bottomCenter">

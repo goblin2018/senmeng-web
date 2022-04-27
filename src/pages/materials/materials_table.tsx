@@ -4,7 +4,7 @@ import API from 'api'
 import { Materials } from 'api/materials'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { State } from 'store/reducers'
+import { State } from 'store'
 
 const MaterialsTable = () => {
   const columns: ColumnsType<Materials> = [

@@ -4,9 +4,9 @@ import { Alert, Button, Form, Input, Modal, notification, Radio } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import API from 'api'
 import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store/reducers'
+import { State } from 'store'
 import { DefaultPassword, ErrCode, UserLevel } from 'api/constants'
-import { openUserModal } from 'store/reducers/users'
+import { openUserModal } from 'store/users'
 import { useEffect } from 'react'
 const { Item } = Form
 

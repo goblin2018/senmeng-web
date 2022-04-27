@@ -1,8 +1,9 @@
 import { Form, Input, Modal } from 'antd'
+import API from 'api'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store/reducers'
-import { openMaterialsModal } from 'store/reducers/materials'
+import { State } from 'store'
+import { openMaterialsModal } from 'store/materials'
 
 const { Item } = Form
 const MaterialsModal = () => {
@@ -14,11 +15,16 @@ const MaterialsModal = () => {
 
   const [mForm] = Form.useForm()
 
-  const submit = () => {}
+  const submit = () =>
+    mForm.validateFields().then(() => {
+      console.log(mForm.getFieldsValue())
+
+      // API.addMaterials(mForm.getFieldsValue())
+    })
   return (
     <>
       <Modal visible={visible} onCancel={cancel} onOk={submit} title="添加物料">
-        <Form form={mForm} labelCol={{ span: 4 }} wrapperCol={{ span: 16 }}>
+        <Form form={mForm} labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} initialValues={{ unit: 'pcs' }}>
           <Item label="物料名称" name="name" rules={[{ required: true, message: '请输入物料名称' }]}>
             <Input />
           </Item>
@@ -32,7 +38,7 @@ const MaterialsModal = () => {
             <Input.TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
           </Item>
           <Item label="单位" name="unit" rules={[{ required: true, message: '请输入单位' }]}>
-            <Input defaultValue={'pcs'} />
+            <Input />
           </Item>
         </Form>
       </Modal>
