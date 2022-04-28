@@ -2,7 +2,7 @@ import { User } from 'api/user'
 import { combineReducers } from 'redux'
 import userReducer from 'store/user'
 import materialsReducer, { RMaterials } from './materials'
-import suppliersReducer, { RSuppliers } from './suppliers'
+import suppliersReducer, { RSuppliers } from '../pages/supplier/suppliersSlice'
 import usersReducer, { RUsers } from './users'
 
 export interface State {

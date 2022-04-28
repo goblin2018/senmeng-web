@@ -1,22 +1,21 @@
 import { Form, Input, message, Modal, notification } from 'antd'
 import API from 'api'
 import { Supplier } from 'api/supplier'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store'
-import { listSupplier, OpenSupplierModal } from 'store/suppliers'
 import { notifyCode } from 'utils/errcode'
+import { openSupplierModal } from './suppliersSlice'
 
 const { Item } = Form
 const SupplierModal = () => {
-  const dispatch = useDispatch()
-  const visible = useSelector((state: State) => state.suppliers.showModal)
-  const isEdit = useSelector((state: State) => state.suppliers.isEdit)
-  const editSupplier = useSelector((state: State) => state.suppliers.editSupplier)
+  const dispatch = useAppDispatch()
+  const visible = useAppSelector(state => state.suppliers.showModal)
+  const isEdit = useAppSelector(state => state.suppliers.isEdit)
+  const editSupplier = useAppSelector(state => state.suppliers.editSupplier)
   const [sForm] = Form.useForm()
   const [inputs, setInputs] = useState<HTMLInputElement[]>([])
   const cancel = () => {
-    dispatch(OpenSupplierModal(false))
+    dispatch(openSupplierModal(false))
   }
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const SupplierModal = () => {
         API.updateSupplier(nS).then(res => {
           let r = notifyCode(res.data.code, '修改供应商成功!', '修改供应商失败，已存在相同的供应商信息。')
           if (r) {
-            dispatch(listSupplier({ offset: 0, limit: 10 }))
+            dispatch(ListSupplier({ offset: 0, limit: 10 }))
             cancel()
           }
         })
@@ -73,7 +72,7 @@ const SupplierModal = () => {
             `添加供应商 ${s.name} 失败，已存在相同的供应商信息。`
           )
           if (r) {
-            dispatch(listSupplier({ offset: 0, limit: 10 }))
+            dispatch(ListSupplier({ offset: 0, limit: 10 }))
             cancel()
           }
         })

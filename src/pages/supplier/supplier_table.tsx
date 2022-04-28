@@ -6,7 +6,7 @@ import { Supplier } from 'api/supplier'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { State } from 'store'
-import { listSupplier, SetEditSupplier, UpdateSupplierList } from 'store/suppliers'
+import { ListSupplier, SetEditSupplier, UpdateSupplierList } from 'pages/supplier/suppliers'
 import { notifyCode } from 'utils/errcode'
 
 const SupplierTable = () => {
@@ -14,7 +14,7 @@ const SupplierTable = () => {
   const isEdit = useSelector((state: State) => state.suppliers.isEdit)
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(listSupplier({ offset: 0, limit: 10 }))
+    dispatch(ListSupplier({ offset: 0, limit: 10 }))
   }, [])
 
   const columns: ColumnsType<Supplier> = [
@@ -72,7 +72,7 @@ const SupplierTable = () => {
         description: `删除供应商 ${s.name} 成功。`
       })
       // 更新列表
-      dispatch(listSupplier({ offset: 0, limit: 10 }))
+      dispatch(ListSupplier({ offset: 0, limit: 10 }))
     })
   }
 

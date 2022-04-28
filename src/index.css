@@ -24,3 +24,7 @@ code {
   align-items: center;
   font-size: 14px !important;
 }
+
+#root {
+  height: 100%;
+}

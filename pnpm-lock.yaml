@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@ant-design/icons': ^4.7.0
+  '@reduxjs/toolkit': ^1.8.1
   '@types/react': ^17.0.33
   '@types/react-dom': ^17.0.10
   '@typescript-eslint/eslint-plugin': ^5.12.1
@@ -34,6 +35,7 @@ specifiers:
 
 dependencies:
   '@ant-design/icons': 4.7.0_react-dom@17.0.2+react@17.0.2
+  '@reduxjs/toolkit': 1.8.1_react-redux@7.2.6+react@17.0.2
   antd: 4.18.6_react-dom@17.0.2+react@17.0.2
   axios: 0.26.0
   jspdf: 2.5.1
@@ -459,6 +461,25 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
     dev: true
+
+  /@reduxjs/toolkit/1.8.1_react-redux@7.2.6+react@17.0.2:
+    resolution: {integrity: sha512-Q6mzbTpO9nOYRnkwpDlFOAbQnd3g7zj7CtHAZWz5SzE5lcV97Tf8f3SzOO8BoPOMYBFgfZaqTUZqgGu+a0+Fng==}
+    peerDependencies:
+      react: ^16.9.0 || ^17.0.0 || ^18
+      react-redux: ^7.2.1 || ^8.0.0-beta
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-redux:
+        optional: true
+    dependencies:
+      immer: 9.0.12
+      react: 17.0.2
+      react-redux: 7.2.6_react-dom@17.0.2+react@17.0.2
+      redux: 4.1.2
+      redux-thunk: 2.4.1_redux@4.1.2
+      reselect: 4.1.5
+    dev: false
 
   /@rollup/pluginutils/4.1.2:
     resolution: {integrity: sha512-ROn4qvkxP9SyPeHaf7uQC/GPFY6L/OWy9+bd9AwcjOAWQwxRscoEyAUD8qCY5o5iL4jqQwoLk2kaTKJPb/HwzQ==}
@@ -1899,6 +1920,10 @@ packages:
     dev: true
     optional: true
 
+  /immer/9.0.12:
+    resolution: {integrity: sha512-lk7UNmSbAukB5B6dh9fnh5D0bJTOFKxVg2cyJWTYrWRfhLrLMBquONcUs3aFq507hNoIZEDDh8lb8UtOizSMhA==}
+    dev: false
+
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -3150,6 +3175,10 @@ packages:
     resolution: {integrity: sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==}
     engines: {node: '>=8'}
     dev: true
+
+  /reselect/4.1.5:
+    resolution: {integrity: sha512-uVdlz8J7OO+ASpBYoz1Zypgx0KasCY20H+N8JD13oUMtPvSHQuscrHop4KbXrbsBcdB9Ds7lVK7eRkBIfO43vQ==}
+    dev: false
 
   /resize-observer-polyfill/1.5.1:
     resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
