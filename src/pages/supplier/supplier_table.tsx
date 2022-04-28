@@ -4,17 +4,15 @@ import API from 'api'
 import { ListOpt } from 'api/listopt'
 import { Supplier } from 'api/supplier'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store'
-import { ListSupplier, SetEditSupplier, UpdateSupplierList } from 'pages/supplier/suppliers'
-import { notifyCode } from 'utils/errcode'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { listSupplier, setEditSupplier } from './suppliersSlice'
 
 const SupplierTable = () => {
-  const items = useSelector((state: State) => state.suppliers.items)
-  const isEdit = useSelector((state: State) => state.suppliers.isEdit)
-  const dispatch = useDispatch()
+  const items = useAppSelector(state => state.suppliers.items)
+  const isEdit = useAppSelector(state => state.suppliers.isEdit)
+  const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(ListSupplier({ offset: 0, limit: 10 }))
+    dispatch(listSupplier())
   }, [])
 
   const columns: ColumnsType<Supplier> = [
@@ -62,7 +60,7 @@ const SupplierTable = () => {
     }
   ]
   const editSupplier = (s: Supplier) => {
-    dispatch(SetEditSupplier(true, s))
+    dispatch(setEditSupplier(true, s))
   }
 
   const delSupplier = (s: Supplier) => {
@@ -72,7 +70,7 @@ const SupplierTable = () => {
         description: `删除供应商 ${s.name} 成功。`
       })
       // 更新列表
-      dispatch(ListSupplier({ offset: 0, limit: 10 }))
+      dispatch(listSupplier())
     })
   }
 

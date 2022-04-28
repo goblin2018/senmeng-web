@@ -1,14 +1,13 @@
 import { Form, Input, Modal } from 'antd'
-import API from 'api'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store'
-import { openMaterialsModal } from 'store/materials'
+import API from 'api'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { openMaterialsModal } from './materialsSlice'
 
 const { Item } = Form
 const MaterialsModal = () => {
-  const visible = useSelector((state: State) => state.materials.showModal)
-  const dispatch = useDispatch()
+  const visible = useAppSelector(state => state.materials.showModal)
+  const dispatch = useAppDispatch()
   const cancel = () => {
     dispatch(openMaterialsModal(false))
   }

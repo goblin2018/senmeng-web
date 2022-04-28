@@ -3,12 +3,12 @@ import { Button } from 'antd'
 import UserModal from './user_modal'
 import UserTableComponent from './user_table'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { openUserModal } from 'store/users'
+import { useAppDispatch } from 'app/hooks'
+import { openUserModal } from './usersSlice'
 
 const UserComponent = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   return (
     <>
       <Button

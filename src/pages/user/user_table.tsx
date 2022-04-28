@@ -4,16 +4,15 @@ import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { UserLevel, UserStatus } from 'api/constants'
 import { User } from 'api/user'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { updateUserList } from './usersSlice'
 import React from 'react'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store'
-import { updateUserList } from 'store/users'
 
 const UserTableComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const items = useSelector((state: State) => state.users.items)
+  const items = useAppSelector(state => state.users.items)
 
   useEffect(() => {
     console.log('before get data')

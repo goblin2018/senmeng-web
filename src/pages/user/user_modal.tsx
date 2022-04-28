@@ -3,11 +3,10 @@ import { LeftOutlined } from '@ant-design/icons'
 import { Alert, Button, Form, Input, Modal, notification, Radio } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import API from 'api'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store'
 import { DefaultPassword, ErrCode, UserLevel } from 'api/constants'
-import { openUserModal } from 'store/users'
 import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { openUserModal } from './usersSlice'
 const { Item } = Form
 
 const UserModal = () => {
@@ -37,11 +36,11 @@ const UserModal = () => {
         }
       })
     })
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const cancel = () => {
     dispatch(openUserModal(false))
   }
-  const visible = useSelector((state: State) => state.users.showModal)
+  const visible = useAppSelector(state => state.users.showModal)
   useEffect(() => {
     if (visible) {
       userForm.resetFields()

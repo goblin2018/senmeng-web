@@ -2,9 +2,8 @@ import { Button, notification, Popconfirm, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Materials } from 'api/materials'
+import { useAppSelector } from 'app/hooks'
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { State } from 'store'
 
 const MaterialsTable = () => {
   const columns: ColumnsType<Materials> = [
@@ -56,7 +55,7 @@ const MaterialsTable = () => {
       }
     }
   ]
-  const items = useSelector((state: State) => state.materials.items)
+  const items = useAppSelector(state => state.materials.items)
   useEffect(() => {}, [])
   const listMaterilas = () => {
     API.listMaterials({ offset: 0, limit: 10 }).then(res => {
