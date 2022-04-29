@@ -1,4 +1,8 @@
-export interface ListOpt {
-  offset: number
-  limit: number
-}
+export type ListOpt =
+  | {
+      offset: number
+      limit: number
+    }
+  | {
+      all: boolean
+    }

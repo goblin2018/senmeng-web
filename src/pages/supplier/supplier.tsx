@@ -4,6 +4,7 @@ import SupplierModal from './supplier_modal'
 import SupplierTable from './supplier_table'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { changeSupplierPage, listSupplier, setEditSupplier } from './suppliersSlice'
+import SupplierSearch from './supplier_search'
 
 const SupplierPage = () => {
   const dispatch = useAppDispatch()
@@ -17,7 +18,7 @@ const SupplierPage = () => {
   }
   return (
     <div className="relative h-full">
-      <div className="mb-6">
+      <div className="mb-6 flex justify-between">
         <Button
           onClick={() => {
             dispatch(setEditSupplier(false))
@@ -25,6 +26,7 @@ const SupplierPage = () => {
         >
           添加供应商
         </Button>
+        <SupplierSearch />
       </div>
       <SupplierModal />
       <SupplierTable />

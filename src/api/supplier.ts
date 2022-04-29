@@ -1,11 +1,23 @@
 import http from './axios'
 import { ListOpt } from './listopt'
 
+type ListSupplierOpt = ListOpt & {
+  supplier_id?: string
+  name?: string
+}
+
 export interface Supplier {
   id: number
   supplier_id: string
   name: string
 }
+
+export const initSupplier: Supplier = {
+  id: 0,
+  supplier_id: '',
+  name: ''
+}
+
 const supUrl = '/api/supplier'
 export const addSupplier = (sup: Supplier) => {
   return http({
@@ -15,7 +27,7 @@ export const addSupplier = (sup: Supplier) => {
   })
 }
 
-export const listSupplier = (opt: ListOpt) => {
+export const listSupplier = (opt: ListSupplierOpt) => {
   return http({
     method: 'GET',
     url: supUrl,

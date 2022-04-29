@@ -1,10 +1,10 @@
-import { Form, Input, message, Modal, notification } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Form, Input, Modal, notification } from 'antd'
 import API from 'api'
 import { Supplier } from 'api/supplier'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import React, { useEffect, useState } from 'react'
 import { notifyCode } from 'utils/errcode'
-import { openSupplierModal } from './suppliersSlice'
+import { listSupplier, openSupplierModal } from './suppliersSlice'
 
 const { Item } = Form
 const SupplierModal = () => {
@@ -58,7 +58,7 @@ const SupplierModal = () => {
         API.updateSupplier(nS).then(res => {
           let r = notifyCode(res.data.code, '修改供应商成功!', '修改供应商失败，已存在相同的供应商信息。')
           if (r) {
-            dispatch(ListSupplier({ offset: 0, limit: 10 }))
+            dispatch(listSupplier())
             cancel()
           }
         })
@@ -72,7 +72,7 @@ const SupplierModal = () => {
             `添加供应商 ${s.name} 失败，已存在相同的供应商信息。`
           )
           if (r) {
-            dispatch(ListSupplier({ offset: 0, limit: 10 }))
+            dispatch(listSupplier())
             cancel()
           }
         })
@@ -95,7 +95,7 @@ const SupplierModal = () => {
   return (
     <>
       <Modal visible={visible} title={isEdit ? '编辑供应商' : '添加供应商'} onCancel={cancel} onOk={submit} forceRender>
-        <Form form={sForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }} onKeyUp={handleKeyUp}>
+        <Form form={sForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }} autoComplete="off" onKeyUp={handleKeyUp}>
           <Item label="供应商编码" name="supplier_id" rules={[{ required: true, message: '请输入供应商编码' }]}>
             <Input className="iii" />
           </Item>

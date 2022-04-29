@@ -1,15 +1,14 @@
 import { Button, notification, Popconfirm, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
-import { ListOpt } from 'api/listopt'
 import { Supplier } from 'api/supplier'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { listSupplier, setEditSupplier } from './suppliersSlice'
+import { changeSupplierPage, listSupplier, setEditSupplier, supplierPage } from './suppliersSlice'
 
 const SupplierTable = () => {
   const items = useAppSelector(state => state.suppliers.items)
-  const isEdit = useAppSelector(state => state.suppliers.isEdit)
+  const currentPage = useAppSelector(supplierPage)
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(listSupplier())
@@ -69,6 +68,9 @@ const SupplierTable = () => {
         message: '操作成功',
         description: `删除供应商 ${s.name} 成功。`
       })
+      if (items?.length === 1) {
+        dispatch(changeSupplierPage(currentPage! - 1))
+      }
       // 更新列表
       dispatch(listSupplier())
     })

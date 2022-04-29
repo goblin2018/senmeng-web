@@ -1,21 +1,26 @@
 import { Button } from 'antd'
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { openMaterialsModal } from './materialsSlice'
+import { useAppDispatch } from 'app/hooks'
+import React, { useEffect } from 'react'
+import { listAllSuppliers, openMaterialsModal } from './materialsSlice'
 import MaterialsModal from './materials_modal'
 import MaterialsTable from './materials_table'
 
 const MaterialsPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(listAllSuppliers())
+  }, [])
   return (
     <div>
-      <Button
-        onClick={() => {
-          dispatch(openMaterialsModal(true))
-        }}
-      >
-        添加物料
-      </Button>
+      <div className="mb-6 flex justify-between">
+        <Button
+          onClick={() => {
+            dispatch(openMaterialsModal(true))
+          }}
+        >
+          添加物料
+        </Button>
+      </div>
       <MaterialsTable />
       <MaterialsModal />
     </div>

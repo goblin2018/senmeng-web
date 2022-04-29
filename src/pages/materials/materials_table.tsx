@@ -2,8 +2,9 @@ import { Button, notification, Popconfirm, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Materials } from 'api/materials'
-import { useAppSelector } from 'app/hooks'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
 import React, { useEffect } from 'react'
+import { listMaterials } from './materialsSlice'
 
 const MaterialsTable = () => {
   const columns: ColumnsType<Materials> = [
@@ -31,7 +32,7 @@ const MaterialsTable = () => {
     },
     {
       title: '供应商',
-      dataIndex: 'supplier_id',
+      dataIndex: ['supplier', 'id'],
       key: 'supplier_id',
       width: 100,
       align: 'center'
@@ -56,19 +57,16 @@ const MaterialsTable = () => {
     }
   ]
   const items = useAppSelector(state => state.materials.items)
-  useEffect(() => {}, [])
-  const listMaterilas = () => {
-    API.listMaterials({ offset: 0, limit: 10 }).then(res => {
-      let data = res.data
-    })
-  }
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(listMaterials())
+  }, [])
 
   const delMaterials = (mt: Materials) => {
     API.delMaterials(mt).then(res => {
       notification.success({
         message: '删除物料成功'
       })
-      listMaterilas()
     })
   }
   return (

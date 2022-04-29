@@ -1,11 +1,18 @@
 import http from './axios'
 import { ListOpt } from './listopt'
+import { Supplier } from './supplier'
+
+type ListMaterialsOpt = ListOpt & {
+  name?: string
+  supplier_id?: number
+  code?: string
+}
 
 export interface Materials {
   id: number
   name: string
   code: string
-  supplier_id: number
+  supplier?: Supplier
   desc: string
   unit?: string
 }
@@ -36,7 +43,7 @@ export const delMaterials = (mat: Materials) => {
   })
 }
 
-export const listMaterials = (opt: ListOpt) => {
+export const listMaterials = (opt: ListMaterialsOpt) => {
   return http({
     method: 'GET',
     url: matUrl,

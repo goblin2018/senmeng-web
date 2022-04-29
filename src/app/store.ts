@@ -5,9 +5,9 @@ import usersSlice from 'pages/user/usersSlice'
 
 const store = configureStore({
   reducer: {
-    suppliers: suppliersSlice,
     users: usersSlice,
-    materials: materialsSlice
+    materials: materialsSlice,
+    suppliers: suppliersSlice
   }
 })
 
