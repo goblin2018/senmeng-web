@@ -3,8 +3,10 @@ import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Materials } from 'api/materials'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { changeSupplierPage } from 'pages/supplier/suppliersSlice'
 import React, { useEffect } from 'react'
-import { listMaterials } from './materialsSlice'
+import { useNavigate } from 'react-router-dom'
+import { listMaterials, setEditMaterials } from './materialsSlice'
 
 const MaterialsTable = () => {
   const columns: ColumnsType<Materials> = [
@@ -20,21 +22,40 @@ const MaterialsTable = () => {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
-      width: 100,
+      width: 120,
       align: 'center'
     },
     {
       title: '物料编码',
       dataIndex: 'code',
       key: 'code',
+      width: 120,
+      align: 'center'
+    },
+    {
+      title: '物料参数',
+      dataIndex: 'desc',
+      key: 'desc',
+      width: 400
+    },
+    {
+      title: '供应商',
+      dataIndex: ['supplier', 'name'],
+      key: 'supplier_id',
+      width: 200
+    },
+    {
+      title: '当前价格',
+      dataIndex: 'price',
+      key: 'price',
       width: 100,
       align: 'center'
     },
     {
-      title: '供应商',
-      dataIndex: ['supplier', 'id'],
+      title: '更新日期',
+      dataIndex: ['supplier', 'name'],
       key: 'supplier_id',
-      width: 100,
+      width: 120,
       align: 'center'
     },
 
@@ -45,7 +66,12 @@ const MaterialsTable = () => {
       render: (text, record) => {
         return (
           <div className="flex ">
-            <Button type="link">编辑</Button>
+            <Button type="primary" onClick={() => addPrice(record)}>
+              价格
+            </Button>
+            <Button type="link" onClick={() => setEdit(record)}>
+              编辑
+            </Button>
             <Popconfirm title="确定删除物料？" onConfirm={() => delMaterials(record)}>
               <Button danger type="text">
                 删除
@@ -56,7 +82,15 @@ const MaterialsTable = () => {
       }
     }
   ]
+  const setEdit = (it: Materials) => {
+    dispatch(setEditMaterials(true, it))
+  }
+  const navigate = useNavigate()
+  const addPrice = (it: Materials) => {
+    navigate('/price?material_id=' + it.id, { state: it })
+  }
   const items = useAppSelector(state => state.materials.items)
+  const currentPage = useAppSelector(state => state.materials.currentPage)
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(listMaterials())
@@ -68,10 +102,15 @@ const MaterialsTable = () => {
         message: '删除物料成功'
       })
     })
+
+    if (items?.length === 1 && currentPage! > 1) {
+      dispatch(changeSupplierPage(currentPage! - 1))
+    }
+    dispatch(listMaterials())
   }
   return (
     <>
-      <Table columns={columns} bordered dataSource={items} />
+      <Table columns={columns} bordered dataSource={items} size="middle" pagination={false} />
     </>
   )
 }

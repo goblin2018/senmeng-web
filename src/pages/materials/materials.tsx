@@ -1,7 +1,8 @@
-import { Button } from 'antd'
-import { useAppDispatch } from 'app/hooks'
+import { Button, Pagination } from 'antd'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
 import React, { useEffect } from 'react'
-import { listAllSuppliers, openMaterialsModal } from './materialsSlice'
+import MaterialsSearch from './materialsSearch'
+import { changeMaterialsPage, listAllSuppliers, listMaterials, setEditMaterials } from './materialsSlice'
 import MaterialsModal from './materials_modal'
 import MaterialsTable from './materials_table'
 
@@ -10,19 +11,30 @@ const MaterialsPage = () => {
   useEffect(() => {
     dispatch(listAllSuppliers())
   }, [])
+
+  const total = useAppSelector(state => state.materials.total)
+  const currentPage = useAppSelector(state => state.materials.currentPage)
+  const changePage = page => {
+    dispatch(changeMaterialsPage(page))
+    dispatch(listMaterials())
+  }
   return (
-    <div>
+    <div className="relative h-full">
       <div className="mb-6 flex justify-between">
         <Button
           onClick={() => {
-            dispatch(openMaterialsModal(true))
+            dispatch(setEditMaterials(false))
           }}
         >
           添加物料
         </Button>
+        <MaterialsSearch />
       </div>
       <MaterialsTable />
       <MaterialsModal />
+      <div className="flex justify-end absolute w-full h-12 items-center pr-16 bottom-0">
+        <Pagination total={total} current={currentPage} onChange={changePage} />
+      </div>
     </div>
   )
 }

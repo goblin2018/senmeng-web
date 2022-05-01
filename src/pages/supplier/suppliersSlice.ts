@@ -5,7 +5,7 @@ import store, { RootState } from 'app/store'
 
 interface SearchOption {
   name?: string
-  supplier_id?: string
+  code?: string
 }
 export interface SuppliersState {
   items?: Supplier[]
@@ -33,7 +33,7 @@ export const listSupplier = createAsyncThunk('suppliers/listSupplier', async (_,
     offset: (currentPage! - 1) * 10,
     limit: 10,
     name: searchOption?.name,
-    supplier_id: searchOption?.supplier_id
+    code: searchOption?.code
   })
   return res.data
 })
@@ -42,16 +42,16 @@ const suppliersSlice = createSlice({
   name: 'suppliers',
   initialState,
   reducers: {
-    openSupplierModal: (state, action: PayloadAction<boolean>) => {
-      state.showModal = action.payload
+    closeSupplierModal: state => {
+      state.showModal = false
     },
     setEditSupplier: {
       reducer(state, action: PayloadAction<SuppliersState>) {
         const { isEdit, editSupplier } = action.payload
         if (isEdit) {
-          state.isEdit = true
           state.editSupplier = editSupplier
         }
+        state.isEdit = isEdit
         state.showModal = true
       },
       prepare(isEdit: boolean, editSupplier?: Supplier) {
@@ -92,7 +92,7 @@ const suppliersSlice = createSlice({
   }
 })
 export const {
-  openSupplierModal,
+  closeSupplierModal,
   setEditSupplier,
   changeSupplierPage,
   updateSupplierList,

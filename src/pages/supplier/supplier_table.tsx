@@ -25,8 +25,8 @@ const SupplierTable = () => {
     },
     {
       title: '供应商编号',
-      dataIndex: 'supplier_id',
-      key: 'supplier_id',
+      dataIndex: 'code',
+      key: 'code',
       width: 120,
       align: 'center'
     },
@@ -68,7 +68,7 @@ const SupplierTable = () => {
         message: '操作成功',
         description: `删除供应商 ${s.name} 成功。`
       })
-      if (items?.length === 1) {
+      if (items?.length === 1 && currentPage! > 1) {
         dispatch(changeSupplierPage(currentPage! - 1))
       }
       // 更新列表

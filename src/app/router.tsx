@@ -7,6 +7,7 @@ import MaterialsPage from 'pages/materials/materials'
 import SupplierPage from 'pages/supplier/supplier'
 import OperationPage from 'pages/operation/operation'
 import PricePage from 'pages/price/price'
+import AppHome from 'pages/app/app'
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="" element={<HomePage />}>
+            <Route path="app" element={<AppHome />}></Route>
             <Route path="user" element={<UserComponent />}></Route>
             <Route path="materials" element={<MaterialsPage />} />
             <Route path="supplier" element={<SupplierPage />} />

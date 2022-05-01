@@ -9,7 +9,7 @@ const http = axios.create({
 })
 
 http.interceptors.request.use(req => {
-  console.log('req', req)
+  // console.log('req', req)
 
   if (storage.hasError()) {
     return Promise.reject()

@@ -1,4 +1,5 @@
 import http from './axios'
+import { ListOpt } from './listopt'
 
 export interface User {
   id: number
@@ -12,7 +13,7 @@ export interface User {
 
 export interface UpdatePasswordReq {
   id: number
-  actioin: 'update' | 'reset'
+  action: 'update' | 'reset'
   old_passowrd?: string
   new_password?: string
 }
@@ -56,14 +57,15 @@ export const delUser = (user: User) => {
 export const updatePassword = (req: UpdatePasswordReq) => {
   return http({
     method: 'PUT',
-    url: `${userUrl}/passowrd`,
+    url: `${userUrl}/password`,
     data: req
   })
 }
 
-export const listUser = () => {
+export const listUser = (opt: ListOpt) => {
   return http({
     method: 'GET',
-    url: userUrl
+    url: userUrl,
+    params: opt
   }).then(res => res.data)
 }

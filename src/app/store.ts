@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import materialsSlice from 'pages/materials/materialsSlice'
+import priceSlice from 'pages/price/priceSlice'
 import suppliersSlice from 'pages/supplier/suppliersSlice'
 import usersSlice from 'pages/user/usersSlice'
 
@@ -7,7 +8,8 @@ const store = configureStore({
   reducer: {
     users: usersSlice,
     materials: materialsSlice,
-    suppliers: suppliersSlice
+    suppliers: suppliersSlice,
+    price: priceSlice
   }
 })
 

@@ -1,7 +1,7 @@
-import { Form, Input, Modal, Select } from 'antd'
+import { Form, Input, Modal, notification, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { listMaterials, openMaterialsModal } from './materialsSlice'
+import { closeMaterialsModal, listMaterials } from './materialsSlice'
 import API from 'api'
 import { notifyCode } from 'utils/errcode'
 import { Materials } from 'api/materials'
@@ -14,7 +14,7 @@ const MaterialsModal = () => {
   const isEdit = useAppSelector(state => state.materials.isEdit)
   const editMaterials = useAppSelector(state => state.materials.editMaterials)
   const cancel = () => {
-    dispatch(openMaterialsModal(false))
+    dispatch(closeMaterialsModal())
   }
 
   const [mForm] = Form.useForm()
@@ -46,12 +46,42 @@ const MaterialsModal = () => {
   const submit = () =>
     mForm.validateFields().then(() => {
       if (isEdit) {
+        let m = mForm.getFieldsValue() as Materials
+        if (
+          m.code === editMaterials?.code &&
+          m.desc === editMaterials.desc &&
+          m.name === editMaterials.name &&
+          m.unit === editMaterials.unit
+        ) {
+          notification.info({
+            message: '通知',
+            description: `未修改物料 ${m.name} 的信息。 `
+          })
+          cancel()
+          return
+        }
+
+        let newM = {
+          ...editMaterials,
+          ...m
+        }
+
+        API.updateMaterials(newM).then(res => {
+          let r = notifyCode(
+            res.data.code,
+            `修改物料 ${newM.name}成功！`,
+            `修改物料 ${newM.name} 失败，已存在相同信息的物料。`
+          )
+
+          if (r) {
+            dispatch(listMaterials())
+            cancel()
+          }
+        })
       } else {
         let m = mForm.getFieldsValue() as Materials
 
         API.addMaterials(m).then(res => {
-          console.log(res)
-
           let r = notifyCode(
             res.data.code,
             `添加物料 ${m.name}成功！`,
@@ -79,9 +109,17 @@ const MaterialsModal = () => {
       submit()
     }
   }
+
   return (
     <>
-      <Modal visible={visible} onCancel={cancel} onOk={submit} title="添加物料" getContainer={false} forceRender>
+      <Modal
+        visible={visible}
+        onCancel={cancel}
+        onOk={submit}
+        title={isEdit ? '编辑物料' : '添加物料'}
+        getContainer={false}
+        forceRender
+      >
         <Form
           form={mForm}
           labelCol={{ span: 4 }}
@@ -100,6 +138,7 @@ const MaterialsModal = () => {
             <Select
               showSearch
               filterOption={(input, option) => (option as any).children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              disabled={isEdit}
             >
               {suppliers?.map(s => (
                 <Option value={s.id} key={s.id}>

@@ -5,11 +5,13 @@ export interface Price {
   id: number
   material_id: number
   price: number
-  date: string
+  date: Date
 }
 
 const priceUrl = '/api/price'
 export const addPrice = (price: Price) => {
+  // 处理价格问题
+  price.price = price.price * 100
   return http({
     method: 'POST',
     url: priceUrl,
@@ -18,6 +20,8 @@ export const addPrice = (price: Price) => {
 }
 
 export const updatePrice = (price: Price) => {
+  // 处理价格问题
+  price.price = price.price * 100
   return http({
     method: 'PUT',
     url: priceUrl,
@@ -33,7 +37,11 @@ export const delPrice = (price: Price) => {
   })
 }
 
-export const listPrice = (opt: ListOpt) => {
+type ListPriceOpt = ListOpt & {
+  material_id?: number
+}
+
+export const listPrice = (opt: ListPriceOpt) => {
   return http({
     method: 'GET',
     url: priceUrl,

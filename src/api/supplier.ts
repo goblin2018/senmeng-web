@@ -2,19 +2,19 @@ import http from './axios'
 import { ListOpt } from './listopt'
 
 type ListSupplierOpt = ListOpt & {
-  supplier_id?: string
+  code?: string
   name?: string
 }
 
 export interface Supplier {
   id: number
-  supplier_id: string
+  code: string
   name: string
 }
 
 export const initSupplier: Supplier = {
   id: 0,
-  supplier_id: '',
+  code: '',
   name: ''
 }
 

@@ -50,8 +50,15 @@ const materialsSlice = createSlice({
   name: 'materials',
   initialState,
   reducers: {
-    openMaterialsModal: (state, action: PayloadAction<boolean>) => {
-      state.showModal = action.payload
+    closeMaterialsModal: state => {
+      state.showModal = false
+    },
+    changeMaterialsPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload
+    },
+    updateMaterialsSearchOptions: (state, action: PayloadAction<SearchOption>) => {
+      state.searchOption = action.payload
+      state.currentPage = 1
     },
     updateMaterialsList: {
       reducer(state, action: PayloadAction<MaterialsState>) {
@@ -63,6 +70,25 @@ const materialsSlice = createSlice({
           payload: {
             items,
             total
+          }
+        }
+      }
+    },
+    setEditMaterials: {
+      reducer(state, action: PayloadAction<MaterialsState>) {
+        const { isEdit, editMaterials } = action.payload
+        if (isEdit) {
+          state.editMaterials = editMaterials
+        }
+        state.isEdit = isEdit
+        state.showModal = true
+      },
+
+      prepare(isEdit: boolean, editMaterials?: Materials) {
+        return {
+          payload: {
+            isEdit,
+            editMaterials
           }
         }
       }
@@ -96,6 +122,11 @@ const materialsSlice = createSlice({
   }
 })
 
-export const { openMaterialsModal, updateMaterialsList } = materialsSlice.actions
-
+export const {
+  updateMaterialsSearchOptions,
+  closeMaterialsModal,
+  updateMaterialsList,
+  setEditMaterials,
+  changeMaterialsPage
+} = materialsSlice.actions
 export default materialsSlice.reducer

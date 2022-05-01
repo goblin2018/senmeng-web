@@ -4,8 +4,14 @@ import Avatar from 'antd/lib/avatar/avatar'
 import { Content, Footer, Header } from 'antd/lib/layout/layout'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Sider from 'antd/lib/layout/Sider'
-import SubMenu from 'antd/lib/menu/SubMenu'
-import { AuditOutlined, CodepenOutlined, ProjectOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  AuditOutlined,
+  CodepenOutlined,
+  HomeOutlined,
+  MonitorOutlined,
+  ProjectOutlined,
+  UserOutlined
+} from '@ant-design/icons'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -24,18 +30,25 @@ const HomePage = () => {
     <>
       <Layout className="h-full">
         <Header className="bg-white">
-          <div className="flex items-center justify-center">
-            <Dropdown overlay={menu} placement="bottomCenter">
-              <Button>{currentProject ? currentProject : '选择项目'}</Button>
-            </Dropdown>
-            <div onClick={toUser}>
-              <Avatar className="cursor-pointer"></Avatar>
+          <div className="flex h-full items-center justify-center relative">
+            <div className="text-xl font-semibold">森盟价格管理系统</div>
+            <div className="absolute right-0">
+              <Avatar className="cursor-pointer" icon={<UserOutlined />} />
             </div>
           </div>
         </Header>
         <Layout className="flex-row">
           <Sider theme="light" className="bg-cyan-200">
-            <Menu mode="inline">
+            <Menu mode="inline" defaultSelectedKeys={['app']}>
+              <Menu.Item
+                key="app"
+                icon={<HomeOutlined />}
+                onClick={() => {
+                  navigate('/app')
+                }}
+              >
+                首页
+              </Menu.Item>
               <Menu.Item
                 key="materials"
                 icon={<CodepenOutlined />}
@@ -63,13 +76,24 @@ const HomePage = () => {
               >
                 员工管理
               </Menu.Item>
+              <Menu.Item
+                key="operation"
+                icon={<MonitorOutlined />}
+                onClick={() => {
+                  navigate('/operation')
+                }}
+              >
+                操作记录
+              </Menu.Item>
             </Menu>
           </Sider>
           <Content className="bg-cyan-50 p-6">
             <Outlet />
           </Content>
         </Layout>
-        <Footer>footer</Footer>
+        <Footer>
+          <div className="text-center">深圳市森盟科技有限公司</div>
+        </Footer>
       </Layout>
     </>
   )

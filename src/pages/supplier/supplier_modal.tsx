@@ -4,7 +4,7 @@ import API from 'api'
 import { Supplier } from 'api/supplier'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { notifyCode } from 'utils/errcode'
-import { listSupplier, openSupplierModal } from './suppliersSlice'
+import { listSupplier, closeSupplierModal } from './suppliersSlice'
 
 const { Item } = Form
 const SupplierModal = () => {
@@ -15,7 +15,7 @@ const SupplierModal = () => {
   const [sForm] = Form.useForm()
   const [inputs, setInputs] = useState<HTMLInputElement[]>([])
   const cancel = () => {
-    dispatch(openSupplierModal(false))
+    dispatch(closeSupplierModal())
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const SupplierModal = () => {
           ...editSupplier,
           ...sForm.getFieldsValue()
         } as Supplier
-        if (nS.name === editSupplier?.name && nS.supplier_id === editSupplier.supplier_id) {
+        if (nS.name === editSupplier?.name && nS.code === editSupplier.code) {
           notification.info({ message: '通知', description: `未修改供应商 ${nS.name} 的信息。` })
           cancel()
           return
@@ -96,7 +96,7 @@ const SupplierModal = () => {
     <>
       <Modal visible={visible} title={isEdit ? '编辑供应商' : '添加供应商'} onCancel={cancel} onOk={submit} forceRender>
         <Form form={sForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }} autoComplete="off" onKeyUp={handleKeyUp}>
-          <Item label="供应商编码" name="supplier_id" rules={[{ required: true, message: '请输入供应商编码' }]}>
+          <Item label="供应商编码" name="code" rules={[{ required: true, message: '请输入供应商编码' }]}>
             <Input className="iii" />
           </Item>
           <Item label="供应商名称" name="name" rules={[{ required: true, message: '请输入供应商名称' }]}>

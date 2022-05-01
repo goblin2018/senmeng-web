@@ -10,7 +10,7 @@ const SupplierSearch = () => {
   const searchOption = useAppSelector(state => state.suppliers.searchOption)
   const submit = () => {
     let optins = sForm.getFieldsValue()
-    if (searchOption?.name === optins.name && searchOption?.supplier_id === optins.supplier_id) {
+    if (searchOption?.name === optins.name && searchOption?.code === optins.code) {
       return
     }
     dispatch(updateSupplierSearchOptions(optins))
@@ -25,11 +25,11 @@ const SupplierSearch = () => {
   return (
     <>
       <Form layout="inline" form={sForm} onFinish={submit}>
-        <Item label="供应商编号" name={'supplier_id'}>
-          <Input />
+        <Item label="供应商编号" name={'code'}>
+          <Input allowClear />
         </Item>
         <Item label="供应商名称" name={'name'}>
-          <Input />
+          <Input allowClear />
         </Item>
         <Item>
           <Button type="primary" htmlType="submit">
