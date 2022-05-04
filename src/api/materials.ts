@@ -1,11 +1,13 @@
 import http from './axios'
 import { ListOpt } from './listopt'
+import { Price } from './price'
 import { Supplier } from './supplier'
 
 type ListMaterialsOpt = ListOpt & {
   name?: string
   supplier_id?: number
   code?: string
+  with_price?: boolean
 }
 
 export interface Materials {
@@ -15,6 +17,7 @@ export interface Materials {
   supplier?: Supplier
   desc: string
   unit?: string
+  price_list?: Price[]
 }
 
 const matUrl = '/api/materials'

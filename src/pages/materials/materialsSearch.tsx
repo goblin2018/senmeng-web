@@ -2,16 +2,22 @@ import { Button, Form, Input, Select } from 'antd'
 
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import React, { useEffect } from 'react'
-import { listMaterials, updateMaterialsSearchOptions } from './materialsSlice'
+import { isEmpty } from 'utils/object'
+import { listMaterials, updateMaterialsList, updateMaterialsSearchOptions } from './materialsSlice'
 
 const { Item } = Form
 const { Option } = Select
-const MaterialsSearch = () => {
+const MaterialsSearch: React.FC<{ searchEmpty?: boolean }> = ({ searchEmpty = true }) => {
   const dispatch = useAppDispatch()
   const suppliers = useAppSelector(state => state.materials.allSuppliers)
   const clearSearch = () => {
     sForm.resetFields()
-    dispatch(updateMaterialsSearchOptions({}))
+    if (searchEmpty) {
+      dispatch(updateMaterialsSearchOptions({}))
+      dispatch(listMaterials())
+    } else {
+      dispatch(updateMaterialsList([], 0))
+    }
   }
 
   const [sForm] = Form.useForm()
@@ -26,19 +32,38 @@ const MaterialsSearch = () => {
       return
     }
     dispatch(updateMaterialsSearchOptions(options))
+    dispatch(listMaterials())
   }
 
   useEffect(() => {
-    dispatch(listMaterials())
-  }, [searchOption])
+    if (searchEmpty) {
+      dispatch(listMaterials())
+    }
+    return () => {
+      dispatch(updateMaterialsSearchOptions({}))
+      dispatch(updateMaterialsList([], 0))
+    }
+  }, [])
 
   return (
     <>
       <Form layout="inline" form={sForm} onFinish={submit}>
-        <Item label="物料编码" name="code">
+        <Item
+          label="物料编码"
+          name="code"
+          getValueFromEvent={v => {
+            return v.target.value.trim()
+          }}
+        >
           <Input allowClear />
         </Item>
-        <Item label="物料名称" name="name">
+        <Item
+          label="物料名称"
+          name="name"
+          getValueFromEvent={v => {
+            return v.target.value.trim()
+          }}
+        >
           <Input allowClear />
         </Item>
         <Item label="供应商" name="supplier_id">

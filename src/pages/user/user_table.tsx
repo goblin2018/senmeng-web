@@ -55,9 +55,9 @@ const UserTableComponent = () => {
       align: 'center',
       render: text => {
         if (text === UserLevel.Normal) {
-          return <Tag>普通用户</Tag>
+          return <Tag color="#2db7f5">普通用户</Tag>
         }
-        return <Tag>管理员</Tag>
+        return <Tag color="#87d068">管理员</Tag>
       }
     },
     // {

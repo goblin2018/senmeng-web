@@ -20,6 +20,10 @@ export interface UpdatePasswordReq {
 
 const userUrl = '/api/user'
 
+export const hasLogin = (): boolean => {
+  return !!sessionStorage.getItem('ok-token')
+}
+
 export const login = (user: User) => {
   return http({
     method: 'POST',

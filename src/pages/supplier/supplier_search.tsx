@@ -25,10 +25,22 @@ const SupplierSearch = () => {
   return (
     <>
       <Form layout="inline" form={sForm} onFinish={submit}>
-        <Item label="供应商编号" name={'code'}>
+        <Item
+          label="供应商编号"
+          name={'code'}
+          getValueFromEvent={v => {
+            return v.target.value.trim()
+          }}
+        >
           <Input allowClear />
         </Item>
-        <Item label="供应商名称" name={'name'}>
+        <Item
+          label="供应商名称"
+          name={'name'}
+          getValueFromEvent={v => {
+            return v.target.value.trim()
+          }}
+        >
           <Input allowClear />
         </Item>
         <Item>

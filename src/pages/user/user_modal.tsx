@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Button, Form, Input, Modal, notification, Radio } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { Alert, Form, Input, Modal, notification, Radio } from 'antd'
 import API from 'api'
 import { DefaultPassword, UserLevel } from 'api/constants'
 import { useEffect } from 'react'
@@ -11,7 +10,6 @@ import { User } from 'api/user'
 const { Item } = Form
 
 const UserModal = () => {
-  const navigate = useNavigate()
   const [userForm] = Form.useForm()
   const isEdit = useAppSelector(state => state.users.isEdit)
 
@@ -114,6 +112,7 @@ const UserModal = () => {
       onOk={submit}
       getContainer={false}
       forceRender
+      maskClosable={false}
     >
       <Form
         labelCol={{ span: 4 }}
@@ -123,16 +122,37 @@ const UserModal = () => {
         initialValues={{ level: UserLevel.Normal }}
         onKeyUp={handleKeyUp}
       >
-        <Item name="username" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
+        <Item
+          name="username"
+          label="用户名"
+          rules={[{ required: true, message: '请输入用户名' }]}
+          getValueFromEvent={v => {
+            return v.target.value.trim()
+          }}
+        >
           <Input className="iii" />
         </Item>
         <div className="mb-6 ml-6 mr-16" style={{ display: isEdit ? 'none' : '' }}>
           <Alert message={`默认密码： ${DefaultPassword}，用户登录之后自行修改密码。`} type="info" />
         </div>
-        <Item name="name" label="姓名" rules={[{ required: true, message: '请输入姓名' }]}>
+        <Item
+          name="name"
+          label="姓名"
+          rules={[{ required: true, message: '请输入姓名' }]}
+          getValueFromEvent={v => {
+            return v.target.value.trim()
+          }}
+        >
           <Input className="iii" />
         </Item>
-        <Item name="phone" label="手机号码" rules={[{ required: true, message: '请输入手机号' }]}>
+        <Item
+          name="phone"
+          label="手机号码"
+          rules={[{ required: true, message: '请输入手机号' }]}
+          getValueFromEvent={v => {
+            return v.target.value.trim()
+          }}
+        >
           <Input className="iii" />
         </Item>
 

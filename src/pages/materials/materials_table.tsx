@@ -3,6 +3,7 @@ import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Materials } from 'api/materials'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
+import moment from 'moment'
 import { changeSupplierPage } from 'pages/supplier/suppliersSlice'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -49,14 +50,28 @@ const MaterialsTable = () => {
       dataIndex: 'price',
       key: 'price',
       width: 100,
-      align: 'center'
+      align: 'center',
+      render: (text, record) => {
+        let its = record.price_list
+        if (its) {
+          return its[0].price / 100
+        }
+        return ''
+      }
     },
     {
       title: '更新日期',
-      dataIndex: ['supplier', 'name'],
-      key: 'supplier_id',
+      dataIndex: 'price_date',
+      key: 'price_date',
       width: 120,
-      align: 'center'
+      align: 'center',
+      render: (text, record) => {
+        let its = record.price_list
+        if (its) {
+          return moment(its[0].date).format('YYYY-MM-DD')
+        }
+        return ''
+      }
     },
 
     {
@@ -92,9 +107,6 @@ const MaterialsTable = () => {
   const items = useAppSelector(state => state.materials.items)
   const currentPage = useAppSelector(state => state.materials.currentPage)
   const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(listMaterials())
-  }, [])
 
   const delMaterials = (mt: Materials) => {
     API.delMaterials(mt).then(res => {

@@ -25,7 +25,8 @@ const initialState: MaterialsState = {
   total: 0,
   showModal: false,
   isEdit: false,
-  currentPage: 1
+  currentPage: 1,
+  searchOption: {}
 }
 
 export const listAllSuppliers = createAsyncThunk('materials/listAllSuppliers', async () => {
@@ -36,12 +37,16 @@ export const listAllSuppliers = createAsyncThunk('materials/listAllSuppliers', a
 export const listMaterials = createAsyncThunk('materials/listMaterials', async (_, { getState }) => {
   const state = getState() as RootState
   let { currentPage, searchOption } = state.materials
+  console.log('query materials ')
+
+  // 获取物料时，加载价格
   const res = await API.listMaterials({
     offset: (currentPage! - 1) * 10,
     limit: 10,
     name: searchOption?.name,
     code: searchOption?.code,
-    supplier_id: searchOption?.supplier_id
+    supplier_id: searchOption?.supplier_id,
+    with_price: true
   })
   return res.data
 })

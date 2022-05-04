@@ -27,7 +27,6 @@ const SupplierModal = () => {
         tmpIs.push(is[i] as HTMLInputElement)
       }
       setInputs(tmpIs)
-      console.log('focus ', tmpIs[0])
       setTimeout(() => {
         tmpIs[0].focus()
       })
@@ -94,12 +93,33 @@ const SupplierModal = () => {
   }
   return (
     <>
-      <Modal visible={visible} title={isEdit ? '编辑供应商' : '添加供应商'} onCancel={cancel} onOk={submit} forceRender>
+      <Modal
+        visible={visible}
+        title={isEdit ? '编辑供应商' : '添加供应商'}
+        onCancel={cancel}
+        onOk={submit}
+        forceRender
+        maskClosable={false}
+      >
         <Form form={sForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }} autoComplete="off" onKeyUp={handleKeyUp}>
-          <Item label="供应商编码" name="code" rules={[{ required: true, message: '请输入供应商编码' }]}>
+          <Item
+            label="供应商编码"
+            name="code"
+            rules={[{ required: true, message: '请输入供应商编码' }]}
+            getValueFromEvent={v => {
+              return v.target.value.trim()
+            }}
+          >
             <Input className="iii" />
           </Item>
-          <Item label="供应商名称" name="name" rules={[{ required: true, message: '请输入供应商名称' }]}>
+          <Item
+            label="供应商名称"
+            name="name"
+            rules={[{ required: true, message: '请输入供应商名称' }]}
+            getValueFromEvent={v => {
+              return v.target.value.trim()
+            }}
+          >
             <Input className="iii" />
           </Item>
         </Form>

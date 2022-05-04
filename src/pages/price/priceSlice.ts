@@ -27,11 +27,8 @@ export const listPrice = createAsyncThunk(
 
   async (_, { getState }) => {
     const state = getState() as RootState
-    let { currentPage, currentMaterials } = state.price
     let res = await API.listPrice({
-      offset: (currentPage! - 1) * 10,
-      limit: 10,
-      material_id: currentMaterials?.id
+      material_id: state.price.currentMaterials?.id
     })
 
     return res.data
@@ -68,6 +65,9 @@ const priceSlice = createSlice({
     },
     changePricePage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload
+    },
+    updatePriceItems: (state, action: PayloadAction<Price[]>) => {
+      state.items = action.payload
     }
   },
   extraReducers: builders => {
@@ -81,13 +81,14 @@ const priceSlice = createSlice({
           // 处理价格问题
           it.price = it.price / 100
         })
+        state.items = items
       }
 
-      state.items = items
       state.total = total
     })
   }
 })
 
-export const { setCurrentMaterials, changePricePage, setEditPrice, closePriceModal } = priceSlice.actions
+export const { updatePriceItems, setCurrentMaterials, changePricePage, setEditPrice, closePriceModal } =
+  priceSlice.actions
 export default priceSlice.reducer

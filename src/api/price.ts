@@ -33,7 +33,7 @@ export const delPrice = (price: Price) => {
   return http({
     method: 'DELETE',
     url: priceUrl,
-    data: price
+    data: { id: price.id }
   })
 }
 

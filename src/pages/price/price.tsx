@@ -5,8 +5,9 @@ import { Materials } from 'api/materials'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import PriceChart from './priceChart'
 import PriceModal from './priceModal'
-import { setCurrentMaterials, setEditPrice } from './priceSlice'
+import { changePricePage, listPrice, setCurrentMaterials, setEditPrice } from './priceSlice'
 import PriceTable from './priceTable'
 
 const PricePage = () => {
@@ -15,10 +16,25 @@ const PricePage = () => {
   const dispatch = useAppDispatch()
 
   const currentMaterials = useAppSelector(state => state.price.currentMaterials)
+  const currentPage = useAppSelector(state => state.price.currentPage)
+  const total = useAppSelector(state => state.price.total)
+
+  const changePage = page => {
+    dispatch(changePricePage(page))
+    dispatch(listPrice())
+  }
   useEffect(() => {
     let m = location.state as Materials
     dispatch(setCurrentMaterials(m))
   }, [])
+
+  useEffect(() => {
+    console.log('change materials ', currentMaterials)
+
+    if (currentMaterials && currentMaterials.id != 0) {
+      dispatch(listPrice())
+    }
+  }, [currentMaterials])
   return (
     <>
       <div className="flex items-center h-10">
@@ -50,9 +66,18 @@ const PricePage = () => {
           添加价格
         </Button>
       </div>
-      <PriceTable />
       <PriceModal />
-      <Pagination></Pagination>
+      <div className="flex">
+        <div style={{ width: 450, position: 'relative', height: 670 }}>
+          <PriceTable />
+          {/* <div className="flex justify-end items-center absolute" style={{ right: 0, bottom: 0 }}>
+            <Pagination current={currentPage} onChange={changePage} total={total}></Pagination>
+          </div> */}
+        </div>
+        <div className="flex-1">
+          <PriceChart />
+        </div>
+      </div>
     </>
   )
 }
