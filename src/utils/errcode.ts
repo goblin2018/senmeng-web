@@ -5,7 +5,7 @@ export const notifyCode = (code: number, success: string, fail: string): boolean
   if (code === ErrCode.OK) {
     notification.success({ message: '操作成功', description: success })
     return true
-  } else if (code === ErrCode.DBError) {
+  } else {
     notification.error({ message: '操作失败', description: fail })
   }
   return false

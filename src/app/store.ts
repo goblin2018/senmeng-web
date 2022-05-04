@@ -4,6 +4,7 @@ import materialsSlice from 'pages/materials/materialsSlice'
 import priceSlice from 'pages/price/priceSlice'
 import suppliersSlice from 'pages/supplier/suppliersSlice'
 import usersSlice from 'pages/user/usersSlice'
+import logger from 'redux-logger'
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     price: priceSlice,
     my: mySlice
   }
+  // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
 })
 
 export type RootState = ReturnType<typeof store.getState>

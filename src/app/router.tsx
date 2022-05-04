@@ -12,7 +12,7 @@ import API from 'api'
 
 const Router = () => {
   const onEnter = useCallback(Component => {
-    if (API.hasLogin()) {
+    if (!API.hasLogin()) {
       return <Navigate to="login" replace />
     }
     return <Component />
@@ -23,6 +23,7 @@ const Router = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="" element={onEnter(HomePage)}>
+            <Route path="" element={<Navigate to="app" />} />
             <Route path="app" element={<AppHome />}></Route>
             <Route path="user" element={<UserComponent />}></Route>
             <Route path="materials" element={<MaterialsPage />} />

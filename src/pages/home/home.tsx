@@ -61,7 +61,7 @@ const HomePage = () => {
   return (
     <>
       <Layout className="h-full">
-        <Header style={{ backgroundColor: '#fafafa', color: '#333333', boxShadow: '0px 3px 3px #c8c8c8' }}>
+        <Header style={{ backgroundColor: '#eeeeee', color: '#333333', boxShadow: '0px 3px 3px #c8c8c8' }}>
           <MHeader />
         </Header>
         <Layout className="flex-row">
@@ -72,10 +72,8 @@ const HomePage = () => {
             <Outlet />
           </Content>
         </Layout>
-        <Footer>
-          <div className="text-center" style={{ backgroundColor: '#fafafa', color: '#333333' }}>
-            深圳市森盟科技有限公司
-          </div>
+        <Footer style={{ backgroundColor: '#eeeeee', color: '#333333' }}>
+          <div className="text-center">深圳市森盟科技有限公司</div>
         </Footer>
       </Layout>
     </>

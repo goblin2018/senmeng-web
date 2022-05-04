@@ -1,5 +1,7 @@
 import http from './axios'
+import { TOKEN } from './constants'
 import { ListOpt } from './listopt'
+import { storage } from './storage'
 
 export interface User {
   id: number
@@ -16,12 +18,15 @@ export interface UpdatePasswordReq {
   action: 'update' | 'reset'
   old_passowrd?: string
   new_password?: string
+  confirm_password?: string
 }
 
 const userUrl = '/api/user'
 
 export const hasLogin = (): boolean => {
-  return !!sessionStorage.getItem('ok-token')
+  console.log('haslogin', !!sessionStorage.getItem(TOKEN), storage.getToken())
+
+  return !!sessionStorage.getItem(TOKEN)
 }
 
 export const login = (user: User) => {
@@ -71,5 +76,9 @@ export const listUser = (opt: ListOpt) => {
     method: 'GET',
     url: userUrl,
     params: opt
-  }).then(res => res.data)
+  }).then(res => {
+    console.log('list user res', res)
+
+    return res.data
+  })
 }

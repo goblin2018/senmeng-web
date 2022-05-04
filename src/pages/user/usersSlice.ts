@@ -30,6 +30,9 @@ export const listUser = createAsyncThunk(
       offset: (currentPage! - 1) * 10,
       limit: 10
     })
+
+    console.log('await result ', res.data)
+
     return res.data
   }
 )

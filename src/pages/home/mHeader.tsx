@@ -1,23 +1,86 @@
 import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Button, Dropdown, Form, Input, Menu, Modal } from 'antd'
-import { useAppSelector } from 'app/hooks'
+import { Avatar, Button, Dropdown, Form, Input, Menu, Modal, notification } from 'antd'
+import API from 'api'
+import { UpdatePasswordReq, User } from 'api/user'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { setMyInfo } from 'pages/login/mySlice'
 import React, { useEffect, useState } from 'react'
+import { notifyCode } from 'utils/errcode'
 
 const { Item } = Form
 
 const MHeader = () => {
-  const my = useAppSelector(s => s.my)
+  const my = useAppSelector(s => s.my.user)
+  const dispatch = useAppDispatch()
 
   const [showEditInfo, setShowEditInfo] = useState(false)
   const [showPasswordModal, setShowPassowrdModal] = useState(false)
   const [infoForm] = Form.useForm()
+  const [pForm] = Form.useForm()
 
-  const submitInfo = () => {}
-  const submitPassword = () => {}
+  useEffect(() => {
+    if (showPasswordModal) {
+      pForm.resetFields()
+    }
+  }, [showPasswordModal])
+
+  const submitInfo = async () => {
+    let r = await infoForm.validateFields()
+    let nu: User = infoForm.getFieldsValue()
+    console.log(nu)
+    console.log(my)
+
+    if (nu.username === my?.username && nu.name === my?.name && nu.phone === my?.phone) {
+      notification.info({
+        message: '通知',
+        description: '未修改用户信息。'
+      })
+      return
+    }
+
+    nu.id = my!.id
+    API.updateUser(nu).then(res => {
+      let r = notifyCode(res.data.code, `修改用户 ${nu.name} 成功。`, `修改用户 ${nu.name} 失败, 存在相同信息的用户。`)
+      console.log('update user', res.data.data)
+
+      if (r) {
+        // 更新信息
+        dispatch(setMyInfo(res.data.data))
+        setShowEditInfo(false)
+      }
+    })
+  }
+  const submitPassword = async () => {
+    let r = pForm.validateFields()
+    let opt = pForm.getFieldsValue() as UpdatePasswordReq
+    if (opt.new_password !== opt.confirm_password) {
+      notification.error({ message: '新密码错误', description: '两次输入密码不一致！' })
+      return
+    }
+    opt.action = 'update'
+    opt.id = my!.id
+    API.updatePassword(opt).then(res => {
+      console.log(res)
+
+      // 修改密码成功
+      let code = res.data.code
+      let r = notifyCode(code, '修改密码成功，下次可使用新密码登录。', '修改密码失败，旧密码输入错误。')
+      if (r) {
+        setShowPassowrdModal(false)
+      }
+    })
+  }
 
   useEffect(() => {
     console.log('showEditInfo', showEditInfo)
+    if (showEditInfo) {
+      infoForm.setFieldsValue(my)
+    }
   }, [showEditInfo])
+
+  useEffect(() => {
+    console.log('my info', my)
+  }, [my])
 
   const menu = (
     <Menu
@@ -48,9 +111,9 @@ const MHeader = () => {
         <div className="text-xl font-semibold">森盟价格管理系统</div>
         <div className="absolute right-0">
           <Dropdown overlay={menu}>
-            <div className="flex">
-              <Avatar className="cursor-pointer" icon={<UserOutlined />} />
-              <div style={{ minWidth: 40 }}>{my.name}</div>
+            <div className="flex items-center">
+              <Avatar className="cursor-pointer mr-3" icon={<UserOutlined />} />
+              <div style={{ minWidth: 40 }}>{my?.name}</div>
             </div>
           </Dropdown>
         </div>
@@ -104,7 +167,7 @@ const MHeader = () => {
           }}
           onOk={submitPassword}
         >
-          <Form form={infoForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }}>
+          <Form form={pForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }}>
             <Item
               label="旧密码"
               name={'old_password'}
