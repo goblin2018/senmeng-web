@@ -7,11 +7,13 @@ import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { changeUserPage, listUser, setEditUser, updateUserList } from './usersSlice'
 import React from 'react'
 import { useEffect } from 'react'
+import { iAmAdmin } from 'pages/login/mySlice'
 
 const UserTableComponent = () => {
   const dispatch = useAppDispatch()
 
   const items = useAppSelector(state => state.users.items)
+  const isAdmin = useAppSelector(iAmAdmin)
 
   useEffect(() => {
     dispatch(listUser())
@@ -78,6 +80,9 @@ const UserTableComponent = () => {
       dataIndex: 'operation',
       key: 'operation',
       render: (text, record) => {
+        if (!isAdmin) {
+          return <></>
+        }
         return (
           <div className="flex ">
             <Button type="link" onClick={() => editUser(record)}>

@@ -5,12 +5,14 @@ import UserTableComponent from './user_table'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { changeUserPage, listUser, openUserModal, setEditUser } from './usersSlice'
+import { iAmAdmin } from 'pages/login/mySlice'
 
 const UserComponent = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const currentPage = useAppSelector(state => state.users.currentPage)
   const total = useAppSelector(state => state.users.total)
+  const isAdmin = useAppSelector(iAmAdmin)
   const changePage = page => {
     dispatch(changeUserPage(page))
     dispatch(listUser())
@@ -22,6 +24,7 @@ const UserComponent = () => {
           onClick={() => {
             dispatch(setEditUser(false))
           }}
+          disabled={!isAdmin}
         >
           添加用户
         </Button>

@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { UserLevel } from 'api/constants'
 
 import { User } from 'api/user'
+import { RootState } from 'app/store'
 
 interface MyState {
   user?: User
@@ -24,4 +26,5 @@ const mySlice = createSlice({
 })
 
 export const { setMyInfo } = mySlice.actions
+export const iAmAdmin = (state: RootState) => state.my.user?.level === UserLevel.Admin
 export default mySlice.reducer
