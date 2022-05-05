@@ -47,8 +47,9 @@ const LoginPage = () => {
     <>
       <div className="flex h-full">
         <div className="flex-1 relative" style={{ background: 'linear-gradient(90deg, #034AA9 0%, #2660AE 100%)' }}>
-          <div className="absolute" style={{ fontSize: 48, fontWeight: 700, color: 'white', left: 120, top: 120 }}>
-            森盟价格管理系统
+          <div className="absolute flex" style={{ fontSize: 48, fontWeight: 700, color: 'white', left: 120, top: 120 }}>
+            <img style={{ width: 80, height: 80, marginRight: 24 }} src="/logo.png" />
+            <div>森盟价格管理系统</div>
           </div>
           <img className="absolute" style={{ left: 200, top: '30%' }} src={bg}></img>
         </div>
