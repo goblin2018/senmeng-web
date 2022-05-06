@@ -60,8 +60,6 @@ const MHeader = () => {
     opt.action = 'update'
     opt.id = my!.id
     API.updatePassword(opt).then(res => {
-      console.log(res)
-
       // 修改密码成功
       let code = res.data.code
       let r = notifyCode(code, '修改密码成功，下次可使用新密码登录。', '修改密码失败，旧密码输入错误。')
@@ -72,15 +70,10 @@ const MHeader = () => {
   }
 
   useEffect(() => {
-    console.log('showEditInfo', showEditInfo)
     if (showEditInfo) {
       infoForm.setFieldsValue(my)
     }
   }, [showEditInfo])
-
-  useEffect(() => {
-    console.log('my info', my)
-  }, [my])
 
   const menu = (
     <Menu

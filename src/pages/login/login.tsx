@@ -22,7 +22,6 @@ const LoginPage = () => {
         u.username = ''
       }
       API.login(u).then(res => {
-        console.log(res)
         let code = res.data.code
         switch (code) {
           case ErrCode.OK:

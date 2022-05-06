@@ -4,8 +4,13 @@ import { ListOpt } from './listopt'
 export interface Operation {
   user_id: number
   id: number
-  operation: number
-  data: string
+  name: string
+  bussiness: string
+  action: number
+  data: Object
+  old_data: Object
+  ip: string
+  created_at: Date
 }
 
 export const listOperation = (opt: ListOpt) => {

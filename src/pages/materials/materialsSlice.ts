@@ -37,7 +37,6 @@ export const listAllSuppliers = createAsyncThunk('materials/listAllSuppliers', a
 export const listMaterials = createAsyncThunk('materials/listMaterials', async (_, { getState }) => {
   const state = getState() as RootState
   let { currentPage, searchOption } = state.materials
-  console.log('query materials ')
 
   // 获取物料时，加载价格
   const res = await API.listMaterials({

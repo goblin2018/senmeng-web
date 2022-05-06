@@ -12,7 +12,6 @@ const SupplierPage = () => {
   const currentPage = useAppSelector(state => state.suppliers.currentPage)
 
   const changePage = page => {
-    console.log('new page', page)
     dispatch(changeSupplierPage(page))
     dispatch(listSupplier())
   }

@@ -29,8 +29,6 @@ const PricePage = () => {
   }, [])
 
   useEffect(() => {
-    console.log('change materials ', currentMaterials)
-
     if (currentMaterials && currentMaterials.id != 0) {
       dispatch(listPrice())
     }

@@ -42,7 +42,7 @@ export const delMaterials = (mat: Materials) => {
   return http({
     method: 'DELETE',
     url: matUrl,
-    data: mat
+    data: { id: mat.id }
   })
 }
 
