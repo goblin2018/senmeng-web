@@ -34,7 +34,7 @@ const SupplierTable = () => {
       title: '供应商名称',
       dataIndex: 'name',
       key: 'name',
-      width: 200,
+      width: 400,
       align: 'center'
     },
 

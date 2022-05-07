@@ -1,4 +1,4 @@
-import { Button, notification, Popconfirm, Table } from 'antd'
+import { Button, notification, Popconfirm, Table, Tooltip } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Materials } from 'api/materials'
@@ -20,13 +20,6 @@ const MaterialsTable = () => {
       render: (text, record, index) => index + 1
     },
     {
-      title: '名称',
-      dataIndex: 'name',
-      key: 'name',
-      width: 120,
-      align: 'center'
-    },
-    {
       title: '物料编码',
       dataIndex: 'code',
       key: 'code',
@@ -34,22 +27,47 @@ const MaterialsTable = () => {
       align: 'center'
     },
     {
+      title: '名称',
+      dataIndex: 'name',
+      key: 'name',
+      width: 250,
+      ellipsis: {
+        showTitle: false
+      },
+
+      render: text => (
+        <Tooltip placement="topLeft" title={text}>
+          {text}
+        </Tooltip>
+      )
+    },
+
+    {
       title: '物料参数',
       dataIndex: 'desc',
       key: 'desc',
-      width: 400
+      width: 450,
+      ellipsis: {
+        showTitle: false
+      },
+
+      render: text => (
+        <Tooltip placement="topLeft" title={text}>
+          {text}
+        </Tooltip>
+      )
     },
     {
       title: '供应商',
       dataIndex: ['supplier', 'name'],
       key: 'supplier_id',
-      width: 200
+      width: 250
     },
     {
       title: '当前价格',
       dataIndex: 'price',
       key: 'price',
-      width: 100,
+      width: 80,
       align: 'center',
       render: (text, record) => {
         let its = record.price_list

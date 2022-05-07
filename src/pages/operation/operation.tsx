@@ -1,4 +1,4 @@
-import { Pagination, Table, Tag } from 'antd'
+import { Pagination, Table, Tag, Tooltip } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Operation } from 'api/operation'
@@ -82,18 +82,36 @@ const OperationPage = () => {
       dataIndex: 'data',
       key: 'data',
       width: 400,
-      render: text => JSON.stringify(text)
+      ellipsis: {
+        showTitle: false
+      },
+      render: text => {
+        let j = JSON.stringify(text)
+        return (
+          <Tooltip placement="topLeft" title={j}>
+            {j}
+          </Tooltip>
+        )
+      }
     },
     {
       title: '操作前数据',
       dataIndex: 'old_data',
       key: 'old_data',
       width: 400,
+      ellipsis: {
+        showTitle: false
+      },
       render: text => {
         if (text === null) {
           return ''
         }
-        return JSON.stringify(text)
+        let j = JSON.stringify(text)
+        return (
+          <Tooltip placement="topLeft" title={j}>
+            {j}
+          </Tooltip>
+        )
       }
     },
 

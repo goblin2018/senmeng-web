@@ -30,7 +30,13 @@ const SupplierPage = () => {
       <SupplierModal />
       <SupplierTable />
       <div className="flex justify-end absolute w-full h-12 items-center pr-16 bottom-0">
-        <Pagination total={total} current={currentPage} onChange={changePage} />
+        <Pagination
+          total={total}
+          current={currentPage}
+          onChange={changePage}
+          showSizeChanger={false}
+          showTotal={total => `共 ${total} 项`}
+        />
       </div>
     </div>
   )

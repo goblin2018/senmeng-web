@@ -33,7 +33,14 @@ const MaterialsPage = () => {
       <MaterialsTable />
       <MaterialsModal />
       <div className="flex justify-end absolute w-full h-12 items-center pr-16 bottom-0">
-        <Pagination total={total} current={currentPage} onChange={changePage} />
+        <Pagination
+          total={total}
+          current={currentPage}
+          onChange={changePage}
+          showQuickJumper
+          showSizeChanger={false}
+          showTotal={total => `共 ${total} 项`}
+        />
       </div>
     </div>
   )

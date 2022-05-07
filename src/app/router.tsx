@@ -12,9 +12,9 @@ import API from 'api'
 
 const Router = () => {
   const onEnter = useCallback(Component => {
-    // if (!API.hasLogin()) {
-    //   return <Navigate to="login" replace />
-    // }
+    if (!API.hasLogin()) {
+      return <Navigate to="login" replace />
+    }
     return <Component />
   }, [])
   return (

@@ -24,7 +24,7 @@ export interface UpdatePasswordReq {
 const userUrl = '/api/user'
 
 export const hasLogin = (): boolean => {
-  console.log('haslogin', !!sessionStorage.getItem(TOKEN), storage.getToken())
+  // console.log('haslogin', !!sessionStorage.getItem(TOKEN), storage.getToken())
   return !!sessionStorage.getItem(TOKEN)
 }
 
