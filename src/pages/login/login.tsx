@@ -30,8 +30,8 @@ const LoginPage = () => {
             storage.setRefreshToken(res.headers[REFRESH_TOKEN])
             dispatch(setMyInfo(res.data.data))
             setTimeout(() => {
-              navigate('/app')
-            })
+              navigate('/app', { replace: true })
+            }, 10)
             return
           case ErrCode.InvalidPassword:
             message.error('密码错误!')

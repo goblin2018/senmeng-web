@@ -1,7 +1,5 @@
 import http from './axios'
-import { TOKEN } from './constants'
 import { ListOpt } from './listopt'
-import { storage } from './storage'
 
 export interface User {
   id: number
@@ -22,11 +20,6 @@ export interface UpdatePasswordReq {
 }
 
 const userUrl = '/api/user'
-
-export const hasLogin = (): boolean => {
-  // console.log('haslogin', !!sessionStorage.getItem(TOKEN), storage.getToken())
-  return !!sessionStorage.getItem(TOKEN)
-}
 
 export const login = (user: User) => {
   return http({
