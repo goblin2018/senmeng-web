@@ -4,6 +4,7 @@ import MaterialsSearch from 'pages/materials/materialsSearch'
 import React, { useEffect, useState } from 'react'
 import { dateToShortStr } from 'utils/time'
 import * as echarts from 'echarts'
+import { Materials } from 'api/materials'
 
 let option = {
   xAxis: {
@@ -113,7 +114,7 @@ const AppHome = () => {
       const ds: any[] = []
       let serie = { ...sampleSerie }
 
-      var it
+      var it: Materials
       if (checkedList.length !== items.length) {
         it = findWithID(i)!
       } else {
@@ -123,7 +124,8 @@ const AppHome = () => {
         ds.push([p.date, p.price / 100])
       })
       serie.data = ds
-      serie.name = it.supplier!.name
+
+      serie.name = it.name + '.' + it.supplier!.name
       series.push(serie)
       index++
     })
@@ -172,7 +174,7 @@ const AppHome = () => {
             <Checkbox.Group value={checkedList} onChange={onChange}>
               {items?.map(it => (
                 <div className="mb-2" key={it.id}>
-                  <Checkbox value={it.id}>{it.supplier?.name}</Checkbox>
+                  <Checkbox value={it.id}>{it.name + '.' + it.supplier?.name}</Checkbox>
                 </div>
               ))}
             </Checkbox.Group>

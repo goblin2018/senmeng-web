@@ -44,6 +44,8 @@ export const delMaterials = (mat: Materials) => {
     url: matUrl,
     data: { id: mat.id }
   })
+
+  
 }
 
 export const listMaterials = (opt: ListMaterialsOpt) => {

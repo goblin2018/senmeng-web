@@ -1,10 +1,12 @@
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, Dropdown, Form, Input, Menu, Modal, notification } from 'antd'
 import API from 'api'
+import { storage } from 'api/storage'
 import { UpdatePasswordReq, User } from 'api/user'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { setMyInfo } from 'pages/login/mySlice'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { notifyCode } from 'utils/errcode'
 
 const { Item } = Form
@@ -18,6 +20,7 @@ const MHeader = () => {
   const [infoForm] = Form.useForm()
   const [pForm] = Form.useForm()
 
+  const navigate = useNavigate()
   useEffect(() => {
     if (showPasswordModal) {
       pForm.resetFields()
@@ -27,8 +30,6 @@ const MHeader = () => {
   const submitInfo = async () => {
     let r = await infoForm.validateFields()
     let nu: User = infoForm.getFieldsValue()
-    console.log(nu)
-    console.log(my)
 
     if (nu.username === my?.username && nu.name === my?.name && nu.phone === my?.phone) {
       notification.info({
@@ -75,6 +76,13 @@ const MHeader = () => {
     }
   }, [showEditInfo])
 
+  const exit = () => {
+    storage.clear()
+    setTimeout(() => {
+      navigate('/login', { replace: true })
+    })
+  }
+
   const menu = (
     <Menu
       items={[
@@ -93,6 +101,14 @@ const MHeader = () => {
             </Button>
           ),
           key: '1'
+        },
+        {
+          label: (
+            <Button type="text" onClick={exit}>
+              退出
+            </Button>
+          ),
+          key: '2'
         }
       ]}
     />
