@@ -10,6 +10,7 @@ const PriceModal = () => {
   const visible = useAppSelector(state => state.price.showModal)
   const isEdit = useAppSelector(state => state.price.isEdit)
   const currentMaterials = useAppSelector(state => state.price.currentMaterials)
+  const currentMoqID = useAppSelector(s => s.price.currentMoqID)
   const editPrice = useAppSelector(state => state.price.editPrice)
   const dispatch = useAppDispatch()
 
@@ -39,7 +40,7 @@ const PriceModal = () => {
     d.setSeconds(0)
     d.setMilliseconds(0)
     p.date = d
-    p.material_id = currentMaterials!.id
+    p.moq_id = currentMoqID!
     p.price = Math.floor(p.price * 100) / 100
 
     return p

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import mySlice from 'pages/login/mySlice'
 import materialsSlice from 'pages/materials/materialsSlice'
+import moqSlice from 'pages/price/moqSlice'
 import priceSlice from 'pages/price/priceSlice'
 import suppliersSlice from 'pages/supplier/suppliersSlice'
 import usersSlice from 'pages/user/usersSlice'
@@ -12,7 +13,8 @@ const store = configureStore({
     materials: materialsSlice,
     suppliers: suppliersSlice,
     price: priceSlice,
-    my: mySlice
+    my: mySlice,
+    moq: moqSlice
   }
   // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
 })

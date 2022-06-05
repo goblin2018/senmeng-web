@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import API from 'api'
 import { Materials } from 'api/materials'
+import { Moq } from 'api/moq'
 import { Price } from 'api/price'
 import { RootState } from 'app/store'
 
@@ -12,6 +13,7 @@ interface PriceState {
   editPrice?: Price
   currentPage?: number
   currentMaterials?: Materials
+  currentMoqID?: number
 }
 
 const initialState: PriceState = {
@@ -19,7 +21,8 @@ const initialState: PriceState = {
   total: 0,
   showModal: false,
   isEdit: false,
-  currentPage: 1
+  currentPage: 1,
+  currentMoqID: undefined
 }
 
 export const listPrice = createAsyncThunk(
@@ -63,6 +66,9 @@ const priceSlice = createSlice({
     setCurrentMaterials: (state, action: PayloadAction<Materials>) => {
       state.currentMaterials = action.payload
     },
+    setCurrentMoqID: (state, action: PayloadAction<number | undefined>) => {
+      state.currentMoqID = action.payload
+    },
     changePricePage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload
     },
@@ -89,6 +95,12 @@ const priceSlice = createSlice({
   }
 })
 
-export const { updatePriceItems, setCurrentMaterials, changePricePage, setEditPrice, closePriceModal } =
-  priceSlice.actions
+export const {
+  updatePriceItems,
+  setCurrentMaterials,
+  changePricePage,
+  setEditPrice,
+  closePriceModal,
+  setCurrentMoqID
+} = priceSlice.actions
 export default priceSlice.reducer

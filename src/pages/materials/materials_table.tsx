@@ -63,34 +63,34 @@ const MaterialsTable = () => {
       key: 'supplier_id',
       width: 250
     },
-    {
-      title: '当前价格',
-      dataIndex: 'price',
-      key: 'price',
-      width: 80,
-      align: 'center',
-      render: (text, record) => {
-        let its = record.price_list
-        if (its) {
-          return its[0].price / 100
-        }
-        return ''
-      }
-    },
-    {
-      title: '更新日期',
-      dataIndex: 'price_date',
-      key: 'price_date',
-      width: 120,
-      align: 'center',
-      render: (text, record) => {
-        let its = record.price_list
-        if (its) {
-          return moment(its[0].date).format('YYYY-MM-DD')
-        }
-        return ''
-      }
-    },
+    // {
+    //   title: '当前价格',
+    //   dataIndex: 'price',
+    //   key: 'price',
+    //   width: 80,
+    //   align: 'center',
+    //   render: (text, record) => {
+    //     let its = record.price_list
+    //     if (its) {
+    //       return its[0].price / 100
+    //     }
+    //     return ''
+    //   }
+    // },
+    // {
+    //   title: '更新日期',
+    //   dataIndex: 'price_date',
+    //   key: 'price_date',
+    //   width: 120,
+    //   align: 'center',
+    //   render: (text, record) => {
+    //     let its = record.price_list
+    //     if (its) {
+    //       return moment(its[0].date).format('YYYY-MM-DD')
+    //     }
+    //     return ''
+    //   }
+    // },
 
     {
       title: '操作',

@@ -3,7 +3,7 @@ import { ListOpt } from './listopt'
 
 export interface Price {
   id: number
-  material_id: number
+  moq_id: number
   price: number
   date: Date
 }
