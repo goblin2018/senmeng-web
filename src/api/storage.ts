@@ -41,6 +41,10 @@ const setUser = (str: string) => {
 
 const hasError = (): boolean => localStorage.getItem(Events.TokenError) !== null
 
+const clear = () => {
+  localStorage.clear()
+}
+
 export const storage = {
   hasError,
   getToken,
@@ -48,5 +52,6 @@ export const storage = {
   setToken,
   setRefreshToken,
   setUser,
-  getUser
+  getUser,
+  clear
 }
