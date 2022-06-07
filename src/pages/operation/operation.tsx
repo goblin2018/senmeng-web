@@ -142,7 +142,7 @@ const OperationPage = () => {
   }, [currentPage])
   return (
     <div className="relative h-full">
-      <Table columns={columns} dataSource={items} pagination={false} size="middle" bordered />
+      <Table columns={columns} dataSource={items} pagination={false} size="large" bordered />
       <div className="flex items-center justify-end absolute w-full" style={{ bottom: 0 }}>
         <Pagination current={currentPage} onChange={page => setCurrentPage(page)} total={total} />
       </div>

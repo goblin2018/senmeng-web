@@ -37,6 +37,13 @@ const SupplierTable = () => {
       width: 400,
       align: 'center'
     },
+    {
+      title: '简称',
+      dataIndex: 'short_name',
+      key: 'short_name',
+      width: 200,
+      align: 'center'
+    },
 
     {
       title: '操作',

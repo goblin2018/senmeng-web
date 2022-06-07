@@ -3,16 +3,21 @@ import { Button, Form, Input, Select } from 'antd'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import React, { useEffect } from 'react'
 import { isEmpty } from 'utils/object'
-import { listMaterials, updateMaterialsList, updateMaterialsSearchOptions } from './materialsSlice'
+import {
+  listMaterials,
+  searchMaterials,
+  updateMaterialsList,
+  updateMaterialsSearchOptions
+} from 'pages/materials/materialsSlice'
 
 const { Item } = Form
 const { Option } = Select
-const MaterialsSearch = () => {
+const AppSearch = () => {
   const dispatch = useAppDispatch()
   const suppliers = useAppSelector(state => state.materials.allSuppliers)
   const clearSearch = () => {
-    sForm.resetFields()
     dispatch(updateMaterialsSearchOptions({}))
+    sForm.resetFields()
   }
 
   const [sForm] = Form.useForm()
@@ -30,8 +35,19 @@ const MaterialsSearch = () => {
   }
 
   useEffect(() => {
-    dispatch(listMaterials())
+    if (isEmpty(searchOption!)) {
+      dispatch(updateMaterialsList([], 0))
+    } else {
+      dispatch(searchMaterials())
+    }
   }, [searchOption])
+
+  useEffect(() => {
+    clearSearch()
+    return () => {
+      clearSearch()
+    }
+  }, [])
 
   return (
     <>
@@ -84,4 +100,4 @@ const MaterialsSearch = () => {
   )
 }
 
-export default MaterialsSearch
+export default AppSearch

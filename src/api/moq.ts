@@ -1,9 +1,11 @@
 import http from './axios'
+import { Materials } from './materials'
 import { Price } from './price'
 
 export interface Moq {
   id?: number
   materials_id?: number
+  materials?: Materials
   moq?: number
   desc?: string
   price_list?: Price[]

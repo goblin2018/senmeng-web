@@ -51,6 +51,7 @@ const MaterialsModal = () => {
           m.code === editMaterials?.code &&
           m.desc === editMaterials.desc &&
           m.name === editMaterials.name &&
+          m.short_name === editMaterials.short_name &&
           m.unit === editMaterials.unit
         ) {
           notification.info({
@@ -133,6 +134,15 @@ const MaterialsModal = () => {
             label="物料名称"
             name="name"
             rules={[{ required: true, message: '请输入物料名称' }]}
+            getValueFromEvent={v => {
+              return v.target.value.trim()
+            }}
+          >
+            <Input className="iii" />
+          </Item>
+          <Item
+            label="物料简称"
+            name="short_name"
             getValueFromEvent={v => {
               return v.target.value.trim()
             }}

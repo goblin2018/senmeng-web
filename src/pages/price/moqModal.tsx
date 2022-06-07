@@ -202,7 +202,7 @@ const MoqModal = () => {
     })
 
   return (
-    <Modal visible={visible} onCancel={cancel} title="编辑MOQ" maskClosable={false} width={800}>
+    <Modal visible={visible} onCancel={cancel} onOk={cancel} title="编辑MOQ" maskClosable={false} width={800}>
       <div className="flex h-14">
         <Button className="mb-4 mr-4 " onClick={() => setShowAdd(!showAdd)}>
           添加MOQ

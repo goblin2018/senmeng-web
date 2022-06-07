@@ -1,15 +1,22 @@
+import React, { useEffect } from 'react'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Button, Pagination, Select } from 'antd'
 import { Materials } from 'api/materials'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import MoqModal from './moqModal'
 import { clearMoq, listMoq, openMoqModal } from './moqSlice'
 import PriceChart from './priceChart'
 import PriceModal from './priceModal'
-import { changePricePage, listPrice, setCurrentMaterials, setCurrentMoqID, setEditPrice } from './priceSlice'
 import PriceTable from './priceTable'
+import {
+  changePricePage,
+  clearPriceList,
+  listPrice,
+  setCurrentMaterials,
+  setCurrentMoqID,
+  setEditPrice
+} from './priceSlice'
 
 const PricePage = () => {
   const location = useLocation()
@@ -29,7 +36,9 @@ const PricePage = () => {
   }
   useEffect(() => {
     let m = location.state as Materials
-    dispatch(setCurrentMaterials(m))
+    if (!currentMaterials) {
+      dispatch(setCurrentMaterials(m))
+    }
     return () => {
       dispatch(setCurrentMoqID(undefined))
       dispatch(clearMoq())
@@ -38,11 +47,20 @@ const PricePage = () => {
 
   useEffect(() => {
     if (currentMaterials && currentMaterials.id != 0) {
-      dispatch(listPrice())
+      console.log('list price ', currentMoqID, currentMaterials)
+
       // 获取moq列表
       dispatch(listMoq())
     }
-  }, [currentMaterials])
+  }, [currentMaterials?.id])
+
+  useEffect(() => {
+    if (currentMoqID) {
+      dispatch(listPrice())
+    } else {
+      dispatch(clearPriceList())
+    }
+  }, [currentMoqID])
 
   useEffect(() => {
     if (moqList && moqList.length > 0 && currentMoqID === undefined) {

@@ -31,7 +31,7 @@ export const listPrice = createAsyncThunk(
   async (_, { getState }) => {
     const state = getState() as RootState
     let res = await API.listPrice({
-      material_id: state.price.currentMaterials?.id
+      moq_id: state.price.currentMoqID
     })
 
     return res.data
@@ -44,6 +44,9 @@ const priceSlice = createSlice({
   reducers: {
     closePriceModal: state => {
       state.showModal = false
+    },
+    clearPriceList: state => {
+      state.items = []
     },
     setEditPrice: {
       reducer(state, action: PayloadAction<PriceState>) {
@@ -79,6 +82,8 @@ const priceSlice = createSlice({
   extraReducers: builders => {
     builders.addCase(listPrice.fulfilled, (state, action) => {
       let { items, total } = action.payload
+      console.log('price items ', items)
+
       if (items == null) {
         state.items = []
       } else {
@@ -101,6 +106,7 @@ export const {
   changePricePage,
   setEditPrice,
   closePriceModal,
-  setCurrentMoqID
+  setCurrentMoqID,
+  clearPriceList
 } = priceSlice.actions
 export default priceSlice.reducer

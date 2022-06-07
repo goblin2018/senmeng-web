@@ -31,6 +31,8 @@ const moqSlice = createSlice({
       state.showModal = action.payload
     },
     clearMoq: state => {
+      console.log('cear moq')
+
       state.items = []
     }
   },

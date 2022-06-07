@@ -1,10 +1,12 @@
-import { Checkbox, Divider } from 'antd'
+import { Checkbox, Divider, Empty } from 'antd'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import MaterialsSearch from 'pages/materials/materialsSearch'
 import React, { useEffect, useState } from 'react'
 import { dateToShortStr } from 'utils/time'
 import * as echarts from 'echarts'
 import { Materials } from 'api/materials'
+import AppSearch from './app_search'
+import { Moq } from 'api/moq'
+import { utc } from 'moment'
 
 let option = {
   xAxis: {
@@ -65,35 +67,64 @@ const AppHome = () => {
   const [checkedList, setCheckedList] = useState<number[]>([])
   const dispatch = useAppDispatch()
 
-  const items = useAppSelector(state => state.materials.items)
+  const [items, setItems] = useState<Moq[]>([])
+
+  const materialsList = useAppSelector(state => state.materials.items)
+
+  const showChart = materialsList && materialsList.length > 0
+
   let series: any[] = []
   useEffect(() => {
-    if (!items || !chart) {
+    if (!materialsList || !chart) {
       return
     }
     // 搜索后全选展示
     setAllChecked()
-  }, [items])
+  }, [materialsList])
 
   const findWithID = (i: number) => {
-    for (let index = 0; index < items!.length; index++) {
-      const it = items![index]
+    for (let index = 0; index < items.length; index++) {
+      const it = items[index]
       if (i === it.id) {
         return it
       }
     }
   }
 
+  const getSerieName = (it: Moq) => {
+    return (
+      (it.materials?.short_name || it.materials?.name) +
+      '.' +
+      it.moq +
+      '.' +
+      (it.materials?.supplier?.short_name || it.materials?.supplier?.name)
+    )
+  }
+
   const setAllChecked = () => {
     let cs: number[] = []
-    items!.forEach(it => {
-      cs.push(it.id)
+    let its: Moq[] = []
+    materialsList!.forEach(mt => {
+      mt.moq_list?.forEach(m => {
+        cs.push(m.id!)
+        let nm = { ...m }
+        nm.materials = {
+          id: mt.id,
+          name: mt.name,
+          short_name: mt.short_name,
+          code: mt.code,
+          desc: mt.desc,
+          supplier: mt.supplier
+        }
+        its.push(nm)
+      })
     })
+    setItems(its)
     setCheckedList(cs)
   }
 
   useEffect(() => {
-    if (!items || !chart) {
+    if (!materialsList || !chart) {
       return
     }
 
@@ -109,25 +140,28 @@ const AppHome = () => {
     }
     let series: any[] = []
 
-    let index = 0
-    checkedList.forEach(i => {
+    checkedList.forEach((i, index) => {
       const ds: any[] = []
       let serie = { ...sampleSerie }
 
-      var it: Materials
+      var it: Moq
       if (checkedList.length !== items.length) {
         it = findWithID(i)!
       } else {
         it = items[index]
       }
-      it.price_list?.forEach(p => {
-        ds.push([p.date, p.price / 100])
-      })
+
+      console.log('get moq ', it)
+
+      if (it.price_list) {
+        it.price_list.forEach(p => {
+          ds.push([p.date, p.price / 100])
+        })
+      }
       serie.data = ds
 
-      serie.name = it.name + '.' + it.supplier!.name
+      serie.name = getSerieName(it)
       series.push(serie)
-      index++
     })
 
     chart.setOption({ ...option, series }, true)
@@ -158,12 +192,15 @@ const AppHome = () => {
   }
   return (
     <>
-      <MaterialsSearch searchEmpty={false} />
-      <div className="flex py-6" style={{ height: '100%' }}>
+      <AppSearch />
+      <div className={`${showChart ? 'hidden' : 'h-full'} flex items-center justify-center overflow-hidden `}>
+        <Empty />
+      </div>
+      <div className={`flex items-center ${showChart ? '' : 'hidden overflow-hidden'}`} style={{ height: '100%' }}>
         <div style={{ width: 1400 }}>
           <div id="mChart" style={{ width: 1400, height: 700 }}></div>
         </div>
-        <div>
+        <div className="h-full pt-20">
           <div>
             <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
               全选
@@ -174,7 +211,7 @@ const AppHome = () => {
             <Checkbox.Group value={checkedList} onChange={onChange}>
               {items?.map(it => (
                 <div className="mb-2" key={it.id}>
-                  <Checkbox value={it.id}>{it.name + '.' + it.supplier?.name}</Checkbox>
+                  <Checkbox value={it.id}>{getSerieName(it)}</Checkbox>
                 </div>
               ))}
             </Checkbox.Group>
