@@ -1,5 +1,6 @@
 import http from './axios'
 import { ListOpt } from './listopt'
+import { Moq } from './moq'
 import { Price } from './price'
 import { Supplier } from './supplier'
 
@@ -13,11 +14,12 @@ type ListMaterialsOpt = ListOpt & {
 export interface Materials {
   id: number
   name: string
+  short_name?: string
   code: string
   supplier?: Supplier
   desc: string
   unit?: string
-  price_list?: Price[]
+  moq_list?: Moq[]
 }
 
 const matUrl = '/api/materials'
@@ -44,8 +46,6 @@ export const delMaterials = (mat: Materials) => {
     url: matUrl,
     data: { id: mat.id }
   })
-
-  
 }
 
 export const listMaterials = (opt: ListMaterialsOpt) => {

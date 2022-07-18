@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as echarts from 'echarts'
 import { useAppSelector } from 'app/hooks'
 import { dateToShortStr } from 'utils/time'
+import { Empty } from 'antd'
 
 let option = {
   xAxis: {
@@ -58,7 +59,7 @@ let option = {
 
 const PriceChart = () => {
   const items = useAppSelector(state => state.price.items)
-
+  const showChart = items && items.length > 0
   useEffect(() => {
     if (items && chart) {
       const ds: any[] = []
@@ -79,7 +80,14 @@ const PriceChart = () => {
     setChart(c)
     c.setOption(option)
   }, [])
-  return <div id="priceMap" style={{ width: 1200, height: 670 }}></div>
+  return (
+    <div style={{ width: 1200, height: 670 }} className="flex items-center justify-center">
+      <div id="priceMap" style={{ width: 1200, height: 670 }} className={`${showChart ? '' : 'hidden'}`}></div>
+      <div className={`${showChart ? 'hidden' : ''}`}>
+        <Empty />
+      </div>
+    </div>
+  )
 }
 
 export default PriceChart

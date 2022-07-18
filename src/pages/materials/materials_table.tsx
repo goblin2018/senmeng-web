@@ -4,6 +4,7 @@ import API from 'api'
 import { Materials } from 'api/materials'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import moment from 'moment'
+import { setCurrentMaterials } from 'pages/price/priceSlice'
 import { changeSupplierPage } from 'pages/supplier/suppliersSlice'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -120,6 +121,8 @@ const MaterialsTable = () => {
   }
   const navigate = useNavigate()
   const addPrice = (it: Materials) => {
+    // 设置当前物料
+    dispatch(setCurrentMaterials(it))
     navigate('/price?material_id=' + it.id, { state: it })
   }
   const items = useAppSelector(state => state.materials.items)

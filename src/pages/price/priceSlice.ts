@@ -32,7 +32,8 @@ export const listPrice = createAsyncThunk(
     const state = getState() as RootState
     let res = await API.listPrice({
       material_id: state.price.currentMaterials?.id,
-      status: status
+      status: status,
+      moqId: state.price.currentMoqID
     })
 
     return res.data
@@ -45,6 +46,9 @@ const priceSlice = createSlice({
   reducers: {
     closePriceModal: state => {
       state.showModal = false
+    },
+    clearPriceList: state => {
+      state.items = []
     },
     setEditPrice: {
       reducer(state, action: PayloadAction<PriceState>) {
@@ -105,6 +109,7 @@ export const {
   changePricePage,
   setEditPrice,
   closePriceModal,
-  setCurrentMoqID
+  setCurrentMoqID,
+  clearPriceList
 } = priceSlice.actions
 export default priceSlice.reducer

@@ -49,7 +49,11 @@ const SupplierModal = () => {
           ...editSupplier,
           ...sForm.getFieldsValue()
         } as Supplier
-        if (nS.name === editSupplier?.name && nS.code === editSupplier.code) {
+        if (
+          nS.name === editSupplier?.name &&
+          nS.code === editSupplier.code &&
+          nS.short_name === editSupplier.short_name
+        ) {
           notification.info({ message: '通知', description: `未修改供应商 ${nS.name} 的信息。` })
           cancel()
           return
@@ -116,6 +120,15 @@ const SupplierModal = () => {
             label="供应商名称"
             name="name"
             rules={[{ required: true, message: '请输入供应商名称' }]}
+            getValueFromEvent={v => {
+              return v.target.value.trim()
+            }}
+          >
+            <Input className="iii" />
+          </Item>
+          <Item
+            label="供应商简称"
+            name="short_name"
             getValueFromEvent={v => {
               return v.target.value.trim()
             }}

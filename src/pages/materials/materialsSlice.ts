@@ -34,6 +34,19 @@ export const listAllSuppliers = createAsyncThunk('materials/listAllSuppliers', a
   return res.data
 })
 
+export const searchMaterials = createAsyncThunk('materials/searchMaterials', async (_, { getState }) => {
+  const state = getState() as RootState
+  let { searchOption } = state.materials
+
+  // 获取物料时，加载价格
+  const res = await API.listMaterials({
+    name: searchOption?.name,
+    code: searchOption?.code,
+    supplier_id: searchOption?.supplier_id,
+    with_price: true
+  })
+  return res.data
+})
 export const listMaterials = createAsyncThunk('materials/listMaterials', async (_, { getState }) => {
   const state = getState() as RootState
   let { currentPage, searchOption } = state.materials
@@ -44,8 +57,7 @@ export const listMaterials = createAsyncThunk('materials/listMaterials', async (
     limit: 10,
     name: searchOption?.name,
     code: searchOption?.code,
-    supplier_id: searchOption?.supplier_id,
-    with_price: true
+    supplier_id: searchOption?.supplier_id
   })
   return res.data
 })
@@ -120,6 +132,21 @@ const materialsSlice = createSlice({
           it.key = it.id
         })
       }
+      state.items = items
+      state.total = total
+    })
+    builder.addCase(searchMaterials.fulfilled, (state, action) => {
+      let { items, total } = action.payload
+      if (items == null) {
+        state.items = []
+      } else {
+        items.forEach(it => {
+          it.key = it.id
+        })
+      }
+
+      console.log('items ', items)
+
       state.items = items
       state.total = total
     })
