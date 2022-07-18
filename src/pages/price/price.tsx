@@ -1,6 +1,8 @@
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Button, Pagination, Select } from 'antd'
+import API from 'api'
 import { Materials } from 'api/materials'
+import { PriceStatus } from 'api/price'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -25,7 +27,7 @@ const PricePage = () => {
 
   const changePage = page => {
     dispatch(changePricePage(page))
-    dispatch(listPrice())
+    dispatch(listPrice({}))
   }
   useEffect(() => {
     let m = location.state as Materials
@@ -38,7 +40,7 @@ const PricePage = () => {
 
   useEffect(() => {
     if (currentMaterials && currentMaterials.id != 0) {
-      dispatch(listPrice())
+      dispatch(listPrice({}))
       // 获取moq列表
       dispatch(listMoq())
     }

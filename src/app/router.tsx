@@ -8,6 +8,7 @@ import OperationPage from 'pages/operation/operation'
 import PricePage from 'pages/price/price'
 import AppHome from 'pages/app/app'
 import { isAlive } from 'api/storage'
+import PriceAuditPage from 'pages/price_audit/priceAudit'
 
 const Router = () => {
   const routes = [
@@ -69,6 +70,7 @@ const Router = () => {
             <Route path="supplier" element={<SupplierPage />} />
             <Route path="operation" element={<OperationPage />} />
             <Route path="price" element={<PricePage />} />
+            <Route path="price/audit" element={<PriceAuditPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -3,8 +3,17 @@ import { Layout, Menu, MenuProps, Table } from 'antd'
 import { Content, Footer, Header } from 'antd/lib/layout/layout'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Sider from 'antd/lib/layout/Sider'
-import { AuditOutlined, CodepenOutlined, HomeOutlined, MonitorOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  ApiFilled,
+  AuditOutlined,
+  CodepenOutlined,
+  HomeOutlined,
+  MonitorOutlined,
+  UserOutlined
+} from '@ant-design/icons'
 import MHeader from './mHeader'
+import { useAppSelector } from 'app/hooks'
+import { UserLevel } from 'api/user'
 
 const HomePage = () => {
   const navigate = useNavigate()
@@ -23,7 +32,14 @@ const HomePage = () => {
         navigate('/app')
       }
     },
-
+    {
+      label: '价格审核',
+      key: '/price/audit',
+      icon: <AuditOutlined />,
+      onClick: () => {
+        navigate('/price/audit')
+      }
+    },
     {
       label: '物料管理',
       key: '/materials',
@@ -58,6 +74,15 @@ const HomePage = () => {
     }
   ]
 
+  const my = useAppSelector(s => s.my.user)
+
+  const getVerifiedItems = () => {
+    if (my?.level == UserLevel.Admin) {
+      return items
+    }
+    return items.filter(it => it?.key != '/price/audit')
+  }
+
   return (
     <>
       <Layout className="h-full">
@@ -66,7 +91,7 @@ const HomePage = () => {
         </Header>
         <Layout className="flex-row">
           <Sider theme="light">
-            <Menu mode="inline" selectedKeys={[selectedKey]} items={items}></Menu>
+            <Menu mode="inline" selectedKeys={[selectedKey]} items={getVerifiedItems()}></Menu>
           </Sider>
           <Content className="bg-white p-6">
             <Outlet />

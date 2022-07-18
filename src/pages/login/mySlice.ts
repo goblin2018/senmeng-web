@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UserLevel } from 'api/constants'
 
-import { User } from 'api/user'
+import { User, UserLevel } from 'api/user'
 import { RootState } from 'app/store'
 
 interface MyState {

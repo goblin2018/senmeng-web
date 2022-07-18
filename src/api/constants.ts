@@ -16,14 +16,4 @@ export const ErrCode = {
   DBError: 2000
 }
 
-export const UserLevel = {
-  Normal: 1,
-  Admin: 99
-}
-
-export const UserStatus = {
-  Normal: 1,
-  Denied: 2
-}
-
 export const DefaultPassword = 'sengmeng66'

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Alert, Form, Input, Modal, notification, Radio } from 'antd'
 import API from 'api'
-import { DefaultPassword, UserLevel } from 'api/constants'
+import { DefaultPassword } from 'api/constants'
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { listUser, openUserModal } from './usersSlice'
 import { notifyCode } from 'utils/errcode'
-import { User } from 'api/user'
+import { User, UserLevel } from 'api/user'
 const { Item } = Form
 
 const UserModal = () => {

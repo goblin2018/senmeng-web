@@ -1,6 +1,13 @@
 import http from './axios'
 import { ListOpt } from './listopt'
-
+export const UserLevel = {
+  Normal: 1,
+  Admin: 99
+}
+export const UserStatus = {
+  Normal: 1,
+  Denied: 2
+}
 export interface User {
   id: number
   username: string

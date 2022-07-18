@@ -1,6 +1,11 @@
 import http from './axios'
 import { ListOpt } from './listopt'
 
+export const PriceStatus = {
+  NotAudit: 1,
+  Ok: 2
+}
+
 export interface Price {
   id: number
   moq_id: number
@@ -39,6 +44,7 @@ export const delPrice = (price: Price) => {
 
 type ListPriceOpt = ListOpt & {
   material_id?: number
+  status?: number
 }
 
 export const listPrice = (opt: ListPriceOpt) => {
