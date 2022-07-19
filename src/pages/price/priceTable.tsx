@@ -1,7 +1,7 @@
-import { Button, notification, Popconfirm, Table } from 'antd'
+import { Button, notification, Popconfirm, Table, Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
-import { Price } from 'api/price'
+import { Price, PriceStatus } from 'api/price'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import moment from 'moment'
 import React from 'react'
@@ -24,6 +24,15 @@ const PriceTable = () => {
       key: 'price',
       width: 100,
       align: 'center'
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      width: 100,
+      align: 'center',
+      render: v =>
+        v == PriceStatus.NotAudit ? <Tag color={'processing'}>待审核</Tag> : <Tag color={'success'}>正常</Tag>
     },
     {
       title: '更新日期',

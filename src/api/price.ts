@@ -11,6 +11,7 @@ export interface Price {
   moq_id: number
   price: number
   date: Date
+  status: number
 }
 
 const priceUrl = '/api/price'
@@ -45,7 +46,7 @@ export const delPrice = (price: Price) => {
 type ListPriceOpt = ListOpt & {
   material_id?: number
   status?: number
-  moq_id?: number
+  moqId?: number
 }
 
 export const listPrice = (opt: ListPriceOpt) => {
