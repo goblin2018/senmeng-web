@@ -44,7 +44,7 @@ export const delPrice = (price: Price) => {
 }
 
 type ListPriceOpt = ListOpt & {
-  material_id?: number
+  materialId?: number
   status?: number
   moqId?: number
 }

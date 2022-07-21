@@ -49,7 +49,6 @@ const PricePage = () => {
 
   useEffect(() => {
     if (currentMaterials && currentMaterials.id != 0) {
-      dispatch(listPrice({}))
       // 获取moq列表
       dispatch(listMoq())
     }

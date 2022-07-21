@@ -68,7 +68,7 @@ const PriceModal = () => {
             `修改价格失败,已存在 ${moment(p.date).format('YYYY-MM-DD')} 的价格。`
           )
           if (r) {
-            dispatch(listPrice())
+            dispatch(listPrice({}))
             cancel()
           }
         })
@@ -77,7 +77,7 @@ const PriceModal = () => {
         API.addPrice(formToPrice()).then(res => {
           let r = notifyCode(res.data.code, '添加价格成功！', '添加价格失败,已存在该价格。')
           if (r) {
-            dispatch(listPrice())
+            dispatch(listPrice({}))
             cancel()
           }
         })

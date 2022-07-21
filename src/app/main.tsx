@@ -9,7 +9,7 @@ import zhCN from 'antd/es/locale/zh_CN'
 import store from 'app/store'
 import { setMyInfo } from 'pages/login/mySlice'
 import { isAlive, storage } from 'api/storage'
-// 
+//
 ReactDOM.render(
   <Provider store={store}>
     <ConfigProvider locale={zhCN}>
@@ -25,7 +25,6 @@ window.onbeforeunload = () => {
   if (info) {
     let u = JSON.stringify(state.my.user)
     storage.setUser(u)
-
   }
 }
 

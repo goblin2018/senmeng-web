@@ -53,7 +53,7 @@ const PriceTable = () => {
             <Button type="link" onClick={() => setEdit(record)}>
               编辑
             </Button>
-            <Popconfirm title="确定删除物料？" onConfirm={() => delPrice(record)}>
+            <Popconfirm title="确定删除价格？" onConfirm={() => delPrice(record)}>
               <Button danger type="text">
                 删除
               </Button>
