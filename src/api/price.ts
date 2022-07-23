@@ -62,7 +62,7 @@ export const listPrice = (opt: ListPriceOpt) => {
 }
 export const auditPrice = (price: Price) => {
   return http({
-    method: 'POST',
+    method: 'PUT',
     url: priceUrl + '/audit',
     data: { id: price.id }
   })

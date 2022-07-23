@@ -7,6 +7,7 @@ import { Materials } from 'api/materials'
 import AppSearch from './app_search'
 import { Moq } from 'api/moq'
 import { utc } from 'moment'
+import { listAllSuppliers } from 'pages/materials/materialsSlice'
 
 let option = {
   xAxis: {
@@ -20,7 +21,18 @@ let option = {
       }
     }
   },
-  legend: {},
+  grid: {
+    right: 150
+  },
+  legend: {
+    orient: 'vertical',
+    itemGap: 20,
+    right: 10,
+    top: 30,
+    bottom: 30,
+    type: 'scroll',
+    icon: 'circle'
+  },
   yAxis: {
     name: '元',
     type: 'value'
@@ -38,7 +50,12 @@ let option = {
       params = params[0]
       var chartdate = dateToShortStr(params.value[0])
       var val =
-        '<li style="list-style:none">' + params.marker + params.seriesName + '&nbsp;&nbsp;' + params.value[1] + '</li>'
+        '<li style="list-style:none">' +
+        params.marker +
+        params.seriesName +
+        '&nbsp;&nbsp;' +
+        params.value[1] +
+        '元</li>'
       return chartdate + val
     }
   },
@@ -55,9 +72,6 @@ const sampleSerie = {
       { type: 'max', name: '最大值' },
       { type: 'min', name: '最小值' }
     ]
-  },
-  markLine: {
-    data: [{ type: 'average', name: '平均值' }]
   }
 } as any
 
@@ -93,11 +107,11 @@ const AppHome = () => {
 
   const getSerieName = (it: Moq) => {
     return (
+      (it.materials?.supplier?.abbr || it.materials?.supplier?.name) +
+      ': ' +
       (it.materials?.short_name || it.materials?.name) +
-      ':' +
-      it.moq +
-      ':' +
-      (it.materials?.supplier?.abbr || it.materials?.supplier?.name)
+      ': ' +
+      it.moq
     )
   }
 
@@ -175,6 +189,8 @@ const AppHome = () => {
     let c = echarts.init(chartDom, undefined, { locale: 'ZH' })
     setChart(c)
     c.setOption(option)
+
+    dispatch(listAllSuppliers())
   }, [])
 
   // 更换选择
@@ -198,9 +214,9 @@ const AppHome = () => {
       </div>
       <div className={`flex items-center ${showChart ? '' : 'hidden overflow-hidden'}`} style={{ height: '100%' }}>
         <div style={{ width: 1400 }}>
-          <div id="mChart" style={{ width: 1400, height: 700 }}></div>
+          <div id="mChart" style={{ width: 1500, height: 700 }}></div>
         </div>
-        <div className="h-full pt-20">
+        {/* <div className="h-full pt-20">
           <div>
             <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
               全选
@@ -216,7 +232,7 @@ const AppHome = () => {
               ))}
             </Checkbox.Group>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   )
