@@ -1,20 +1,24 @@
-import { Button, Card, notification, Popconfirm, Tag } from 'antd'
+import { Button, Card, notification, Pagination, Popconfirm, Tag } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Price, PriceStatus } from 'api/price'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import moment from 'moment'
-import { listPrice, setEditPrice, updatePriceItems } from 'pages/price/priceSlice'
-import PriceTable from 'pages/price/priceTable'
-import { useEffect } from 'react'
+import PriceModal from 'pages/price/priceModal'
+import { changePricePage, listPrice, setEditPrice, updatePriceItems } from 'pages/price/priceSlice'
+import { useEffect, useState } from 'react'
 import { toShortDate } from 'utils/time'
 
 const PriceAuditPage = () => {
   const dispatch = useAppDispatch()
-  const items = useAppSelector(s => s.price.items)
+  const { items, total, currentPage } = useAppSelector(s => s.price)
+  const [currentMoq, setCurrentMoq] = useState(0)
   useEffect(() => {
-    dispatch(listPrice({ status: PriceStatus.NotAudit }))
-  }, [])
+    if (!currentPage) {
+      return
+    }
+    dispatch(listPrice({ status: PriceStatus.NotAudit, offset: (currentPage - 1) * 10, limit: 10 }))
+  }, [currentPage])
 
   const columns: ColumnsType<Price> = [
     {
@@ -26,9 +30,29 @@ const PriceAuditPage = () => {
       render: (text, record, index) => index + 1
     },
     {
+      title: '物料名称',
+      dataIndex: ['moq', 'materials', 'name'],
+      key: 'materialsName',
+      width: 300
+    },
+    {
+      title: '厂家',
+      dataIndex: ['moq', 'materials', 'supplier', 'abbr'],
+      key: 'price',
+      width: 160,
+      align: 'center'
+    },
+    {
       title: '价格',
       dataIndex: 'price',
       key: 'price',
+      width: 100,
+      align: 'center'
+    },
+    {
+      title: '申请人',
+      dataIndex: ['editor', 'name'],
+      key: 'editorName',
       width: 100,
       align: 'center'
     },
@@ -57,7 +81,17 @@ const PriceAuditPage = () => {
       render: (text, record) => {
         return (
           <div className="flex ">
-            <Button type="link" onClick={() => setEdit(record)}>
+            <Popconfirm title="确认价格？" onConfirm={() => auditPrice(record)}>
+              <Button type="primary">确认</Button>
+            </Popconfirm>
+
+            <Button
+              type="link"
+              onClick={() => {
+                setCurrentMoq(record.moq!.moq)
+                setEdit(record)
+              }}
+            >
               编辑
             </Button>
             <Popconfirm title="确定删除价格？" onConfirm={() => delPrice(record)}>
@@ -71,6 +105,17 @@ const PriceAuditPage = () => {
     }
   ]
 
+  const auditPrice = (p: Price) => {
+    API.auditPrice(p).then(res => {
+      notification.success({
+        message: '操作成功',
+        description: `${moment(p.date).format('YYYY-MM-DD')} 价格确认成功！`
+      })
+
+      dispatch(listPrice({ status: PriceStatus.NotAudit, offset: (currentPage! - 1) * 10, limit: 10 }))
+    })
+  }
+
   const setEdit = (p: Price) => {
     dispatch(setEditPrice(true, p))
   }
@@ -81,22 +126,28 @@ const PriceAuditPage = () => {
         message: '操作成功',
         description: `${moment(p.date).format('YYYY-MM-DD')} 价格删除成功！`
       })
-      let index = 0
-      for (let i = 0; i < items!.length; i++) {
-        if (p.id === items![i].id) {
-          index = i
-          break
-        }
-      }
-      let n = [...items!]
-      n.splice(index, 1)
-      dispatch(updatePriceItems(n))
+      dispatch(listPrice({ status: PriceStatus.NotAudit, offset: (currentPage! - 1) * 10, limit: 10 }))
     })
   }
 
   return (
-    <div style={{ width: 450 }}>
-      <Table columns={columns} size="middle" dataSource={items} bordered />
+    <div className="relative h-full">
+      <PriceModal
+        moq={currentMoq}
+        listPrice={() => {
+          dispatch(listPrice({ status: PriceStatus.NotAudit, offset: (currentPage! - 1) * 10, limit: 10 }))
+        }}
+      />
+      <Table columns={columns} size="middle" dataSource={items} bordered pagination={false} />
+
+      <div className="flex justify-end absolute w-full h-12 items-center pr-16 bottom-0">
+        <Pagination
+          total={total}
+          current={currentPage}
+          onChange={v => dispatch(changePricePage(v))}
+          showTotal={total => `共 ${total} 项`}
+        />
+      </div>
     </div>
   )
 }

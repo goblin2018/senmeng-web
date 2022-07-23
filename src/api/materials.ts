@@ -19,7 +19,7 @@ export interface Materials {
   supplier?: Supplier
   desc: string
   unit?: string
-  moq_list?: Moq[]
+  moqList?: Moq[]
 }
 
 const matUrl = '/api/materials'

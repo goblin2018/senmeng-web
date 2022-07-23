@@ -10,7 +10,7 @@ export interface Supplier {
   id: number
   code: string
   name: string
-  short_name?: string
+  abbr?: string
 }
 
 export const initSupplier: Supplier = {

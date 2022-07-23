@@ -4,11 +4,11 @@ import { Price } from './price'
 
 export interface Moq {
   id?: number
-  materials_id?: number
+  materialsId?: number
   materials?: Materials
-  moq?: number
+  moq: number
   desc?: string
-  price_list?: Price[]
+  priceList?: Price[]
 }
 
 const moqUrl = '/api/materials/moq'

@@ -1,5 +1,7 @@
 import http from './axios'
 import { ListOpt } from './listopt'
+import { Moq } from './moq'
+import { User } from './user'
 
 export const PriceStatus = {
   NotAudit: 1,
@@ -12,6 +14,8 @@ export interface Price {
   price: number
   date: Date
   status: number
+  moq?: Moq
+  editor?: User
 }
 
 const priceUrl = '/api/price'
@@ -55,4 +59,11 @@ export const listPrice = (opt: ListPriceOpt) => {
     url: priceUrl,
     params: opt
   }).then(res => res.data)
+}
+export const auditPrice = (price: Price) => {
+  return http({
+    method: 'POST',
+    url: priceUrl + '/audit',
+    data: { id: price.id }
+  })
 }

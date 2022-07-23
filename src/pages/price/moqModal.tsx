@@ -1,5 +1,4 @@
 import { Button, Form, Input, InputNumber, Modal, notification, Popconfirm, Table } from 'antd'
-import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Moq } from 'api/moq'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
@@ -60,7 +59,7 @@ const MoqModal = () => {
     dispatch(openMoqModal(false))
   }
 
-  const [editingMoq, setEditingMoq] = useState<Moq>({ id: 0 })
+  const [editingMoq, setEditingMoq] = useState<Moq>({ id: 0, moq: 0 })
   const isEditing = (record: Moq) => record.id === editingMoq.id
 
   const submitEdit = () => {
@@ -84,7 +83,7 @@ const MoqModal = () => {
   }
 
   const cancelEditMoq = () => {
-    setEditingMoq({ id: 0 })
+    setEditingMoq({ id: 0, moq: 0 })
   }
 
   const columns = [
@@ -190,7 +189,7 @@ const MoqModal = () => {
   const submit = () =>
     addForm.validateFields().then(() => {
       let m = addForm.getFieldsValue() as Moq
-      m.materials_id = currentMaterials?.id
+      m.materialsId = currentMaterials?.id
       API.addMoq(m).then(res => {
         console.log(res)
         let r = notifyCode(res.data.code, '添加MOQ成功', '添加MOQ失败，存在相同的数据。')

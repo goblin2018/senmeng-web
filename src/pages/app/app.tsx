@@ -94,10 +94,10 @@ const AppHome = () => {
   const getSerieName = (it: Moq) => {
     return (
       (it.materials?.short_name || it.materials?.name) +
-      '.' +
+      ':' +
       it.moq +
-      '.' +
-      (it.materials?.supplier?.short_name || it.materials?.supplier?.name)
+      ':' +
+      (it.materials?.supplier?.abbr || it.materials?.supplier?.name)
     )
   }
 
@@ -105,7 +105,7 @@ const AppHome = () => {
     let cs: number[] = []
     let its: Moq[] = []
     materialsList!.forEach(mt => {
-      mt.moq_list?.forEach(m => {
+      mt.moqList?.forEach(m => {
         cs.push(m.id!)
         let nm = { ...m }
         nm.materials = {
@@ -153,8 +153,8 @@ const AppHome = () => {
 
       console.log('get moq ', it)
 
-      if (it.price_list) {
-        it.price_list.forEach(p => {
+      if (it.priceList) {
+        it.priceList.forEach(p => {
           ds.push([p.date, p.price / 100])
         })
       }

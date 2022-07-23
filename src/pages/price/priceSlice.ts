@@ -28,13 +28,17 @@ const initialState: PriceState = {
 export const listPrice = createAsyncThunk(
   'price/listPrice',
 
-  async ({ status }: { status?: number }, { getState }) => {
+  async ({ status, offset, limit }: { status?: number; offset?: number; limit?: number }, { getState }) => {
     const state = getState() as RootState
     let res = await API.listPrice({
       materialId: state.price.currentMaterials?.id,
       status: status,
-      moqId: state.price.currentMoqID
+      moqId: state.price.currentMoqID,
+      offset,
+      limit
     })
+
+    console.log(res)
 
     return res.data
   }

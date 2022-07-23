@@ -4,17 +4,18 @@ import { Price } from 'api/price'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import React, { useEffect, useState } from 'react'
 import { notifyCode } from 'utils/errcode'
-import { closePriceModal, listPrice } from './priceSlice'
+import { closePriceModal } from './priceSlice'
 import moment from 'moment'
-const PriceModal = () => {
-  const visible = useAppSelector(state => state.price.showModal)
-  const isEdit = useAppSelector(state => state.price.isEdit)
-  const currentMaterials = useAppSelector(state => state.price.currentMaterials)
-  const currentMoqID = useAppSelector(s => s.price.currentMoqID)
-  const editPrice = useAppSelector(state => state.price.editPrice)
+
+interface Props {
+  moq?: number
+  listPrice: () => void
+}
+const PriceModal: React.FC<Props> = ({ moq = 0, listPrice }) => {
+  const { showModal: visible, isEdit, currentMoqID, editPrice, currentMaterials } = useAppSelector(state => state.price)
+
   const dispatch = useAppDispatch()
 
-  const items = useAppSelector(state => state.price.items)
   const cancel = () => {
     dispatch(closePriceModal())
   }
@@ -68,7 +69,7 @@ const PriceModal = () => {
             `修改价格失败,已存在 ${moment(p.date).format('YYYY-MM-DD')} 的价格。`
           )
           if (r) {
-            dispatch(listPrice({}))
+            listPrice()
             cancel()
           }
         })
@@ -77,7 +78,7 @@ const PriceModal = () => {
         API.addPrice(formToPrice()).then(res => {
           let r = notifyCode(res.data.code, '添加价格成功！', '添加价格失败,已存在该价格。')
           if (r) {
-            dispatch(listPrice({}))
+            listPrice()
             cancel()
           }
         })
@@ -95,6 +96,16 @@ const PriceModal = () => {
         title={isEdit ? '编辑价格' : '添加价格'}
         maskClosable={false}
       >
+        <div className="ml-12 mb-6">
+          <div className="flex">
+            <div className="font-bold mr-2 w-20">物料名称</div>
+            <div>{editPrice?.moq?.materials?.name || currentMaterials?.name}</div>
+          </div>
+          <div className={`flex ${moq == 0 ? 'hidden' : ''}`}>
+            <div className="font-bold mr-2 w-20">物料MOQ</div>
+            <div>{moq}</div>
+          </div>
+        </div>
         <Form form={pForm} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }} autoComplete="off">
           <Form.Item label="日期" name={'date'} rules={[{ required: true, message: '请选择日期' }]}>
             <DatePicker className="iii" autoFocus />

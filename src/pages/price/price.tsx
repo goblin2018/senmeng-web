@@ -124,7 +124,12 @@ const PricePage = () => {
           添加价格
         </Button>
       </div>
-      <PriceModal />
+      <PriceModal
+        listPrice={() => {
+          dispatch(listPrice({}))
+        }}
+        moq={moqList?.find(it => it.id == currentMoqID)?.moq}
+      />
       <div className="flex">
         <div style={{ width: 450, position: 'relative', height: 670 }}>
           <PriceTable />
