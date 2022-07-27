@@ -21,7 +21,7 @@ export interface Materials {
   unit?: string
   moqList?: Moq[]
   tax?: number
-  buyType: string
+  buyType?: string
 }
 
 const matUrl = '/api/materials'
