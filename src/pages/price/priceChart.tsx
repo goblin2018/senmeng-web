@@ -81,8 +81,8 @@ const PriceChart = () => {
     c.setOption(option)
   }, [])
   return (
-    <div style={{ width: 1200, height: 670 }} className="flex items-center justify-center">
-      <div id="priceMap" style={{ width: 1200, height: 670 }} className={`${showChart ? '' : 'hidden'}`}></div>
+    <div style={{ width: '100%', height: 670 }} className="flex items-center justify-center">
+      <div id="priceMap" style={{ width: 1000, height: 670 }} className={`${showChart ? '' : 'hidden'}`}></div>
       <div className={`${showChart ? 'hidden' : ''}`}>
         <Empty />
       </div>

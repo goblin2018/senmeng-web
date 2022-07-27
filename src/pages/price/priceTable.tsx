@@ -26,6 +26,14 @@ const PriceTable = () => {
       align: 'center'
     },
     {
+      title: '含税价',
+      dataIndex: 'taxedPrice',
+      key: 'taxedPrice',
+      width: 120,
+      align: 'center',
+      render: (v, p) => (currentMaterials?.tax ? p.price * (1 + currentMaterials.tax / 100) : '')
+    },
+    {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
@@ -38,7 +46,7 @@ const PriceTable = () => {
       title: '更新日期',
       dataIndex: 'date',
       key: 'date',
-      width: 120,
+      width: 160,
       align: 'center',
       render: text => toShortDate(text)
     },
@@ -46,6 +54,7 @@ const PriceTable = () => {
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
+      width: 160,
 
       render: (text, record) => {
         return (
@@ -87,10 +96,10 @@ const PriceTable = () => {
     })
   }
   const dispatch = useAppDispatch()
-  const items = useAppSelector(state => state.price.items)
+  const { items, currentMaterials } = useAppSelector(state => state.price)
 
   return (
-    <div style={{ width: 450 }}>
+    <div style={{ width: 550 }}>
       <Table columns={columns} size="middle" dataSource={items} bordered />
     </div>
   )

@@ -131,7 +131,7 @@ const PricePage = () => {
         moq={moqList?.find(it => it.id == currentMoqID)?.moq}
       />
       <div className="flex">
-        <div style={{ width: 450, position: 'relative', height: 670 }}>
+        <div style={{ width: 550, position: 'relative', height: 670 }}>
           <PriceTable />
           {/* <div className="flex justify-end items-center absolute" style={{ right: 0, bottom: 0 }}>
             <Pagination current={currentPage} onChange={changePage} total={total}></Pagination>

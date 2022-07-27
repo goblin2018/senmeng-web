@@ -1,4 +1,4 @@
-import { Form, Input, Modal, notification, Select } from 'antd'
+import { Form, Input, InputNumber, Modal, notification, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { closeMaterialsModal, listMaterials } from './materialsSlice'
@@ -40,6 +40,7 @@ const MaterialsModal = () => {
       }
     } else {
       mForm.resetFields()
+      mForm.setFieldsValue({ buyType: '采购', tax: '0' })
     }
   }, [visible, isEdit])
 
@@ -52,7 +53,9 @@ const MaterialsModal = () => {
           m.desc === editMaterials.desc &&
           m.name === editMaterials.name &&
           m.short_name === editMaterials.short_name &&
-          m.unit === editMaterials.unit
+          m.unit === editMaterials.unit &&
+          m.buyType == editMaterials.buyType &&
+          m.tax == editMaterials.tax
         ) {
           notification.info({
             message: '通知',
@@ -184,6 +187,15 @@ const MaterialsModal = () => {
             }}
           >
             <Input className="iii" />
+          </Item>
+          <Item label="采购方式" name={'buyType'}>
+            <Select>
+              <Option value="采购">采购</Option>
+              <Option value="外委">外委</Option>
+            </Select>
+          </Item>
+          <Item label="税率" name="tax">
+            <InputNumber className="iii" addonAfter="%" />
           </Item>
         </Form>
       </Modal>

@@ -3,7 +3,6 @@ import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Materials } from 'api/materials'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import moment from 'moment'
 import { setCurrentMaterials } from 'pages/price/priceSlice'
 import { changeSupplierPage } from 'pages/supplier/suppliersSlice'
 import React, { useEffect } from 'react'
@@ -71,20 +70,13 @@ const MaterialsTable = () => {
       width: 80,
       render: text => text + '%'
     },
-    // {
-    //   title: '当前价格',
-    //   dataIndex: 'price',
-    //   key: 'price',
-    //   width: 80,
-    //   align: 'center',
-    //   render: (text, record) => {
-    //     let its = record.price_list
-    //     if (its) {
-    //       return its[0].price / 100
-    //     }
-    //     return ''
-    //   }
-    // },
+    {
+      title: '采购方式',
+      dataIndex: 'buyType',
+      key: 'buyType',
+      width: 80,
+      align: 'center'
+    },
     // {
     //   title: '更新日期',
     //   dataIndex: 'price_date',
