@@ -11,6 +11,7 @@ export interface Supplier {
   code: string
   name: string
   abbr?: string
+  tax?: number
 }
 
 export const initSupplier: Supplier = {

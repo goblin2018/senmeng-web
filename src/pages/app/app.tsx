@@ -22,16 +22,19 @@ let option = {
     }
   },
   grid: {
-    right: 150
+    right: 400
   },
   legend: {
     orient: 'vertical',
     itemGap: 20,
-    right: 10,
+    right: 0,
+    align: 'left',
     top: 30,
     bottom: 30,
     type: 'scroll',
-    icon: 'circle'
+    icon: 'circle',
+    backgroundColor: '#fff',
+    borderRadius: 8
   },
   yAxis: {
     name: '元',

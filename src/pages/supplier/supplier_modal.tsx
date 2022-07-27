@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Modal, notification } from 'antd'
+import { Form, Input, InputNumber, Modal, notification } from 'antd'
 import API from 'api'
 import { Supplier } from 'api/supplier'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
@@ -49,7 +49,12 @@ const SupplierModal = () => {
           ...editSupplier,
           ...sForm.getFieldsValue()
         } as Supplier
-        if (nS.name === editSupplier?.name && nS.code === editSupplier.code && nS.abbr === editSupplier.abbr) {
+        if (
+          nS.name === editSupplier?.name &&
+          nS.code === editSupplier.code &&
+          nS.abbr === editSupplier.abbr &&
+          nS.tax === editSupplier.tax
+        ) {
           notification.info({ message: '通知', description: `未修改供应商 ${nS.name} 的信息。` })
           cancel()
           return
@@ -130,6 +135,9 @@ const SupplierModal = () => {
             }}
           >
             <Input className="iii" />
+          </Item>
+          <Item label="税率" name="tax">
+            <InputNumber className="iii" addonAfter="%" />
           </Item>
         </Form>
       </Modal>

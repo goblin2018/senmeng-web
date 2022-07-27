@@ -130,6 +130,7 @@ const materialsSlice = createSlice({
       } else {
         items.forEach(it => {
           it.key = it.id
+          it.tax = it.tax || it.supplier.tax
         })
       }
       state.items = items

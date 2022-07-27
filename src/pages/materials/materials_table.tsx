@@ -64,6 +64,13 @@ const MaterialsTable = () => {
       key: 'supplier_id',
       width: 250
     },
+    {
+      title: '税率',
+      dataIndex: 'tax',
+      key: 'tax',
+      width: 80,
+      render: text => text + '%'
+    },
     // {
     //   title: '当前价格',
     //   dataIndex: 'price',

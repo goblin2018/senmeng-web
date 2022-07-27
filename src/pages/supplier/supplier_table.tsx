@@ -44,7 +44,14 @@ const SupplierTable = () => {
       width: 200,
       align: 'center'
     },
-
+    {
+      title: '税率',
+      dataIndex: 'tax',
+      key: 'tax',
+      width: 200,
+      align: 'center',
+      render: text => text + '%'
+    },
     {
       title: '操作',
       dataIndex: 'operation',

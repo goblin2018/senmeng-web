@@ -20,6 +20,7 @@ export interface Materials {
   desc: string
   unit?: string
   moqList?: Moq[]
+  tax?: number
 }
 
 const matUrl = '/api/materials'
