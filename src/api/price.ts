@@ -21,7 +21,7 @@ export interface Price {
 const priceUrl = '/api/price'
 export const addPrice = (price: Price) => {
   // 处理价格问题
-  price.price = price.price * 100
+  price.price = price.price * 1000
   return http({
     method: 'POST',
     url: priceUrl,
@@ -31,7 +31,7 @@ export const addPrice = (price: Price) => {
 
 export const updatePrice = (price: Price) => {
   // 处理价格问题
-  price.price = price.price * 100
+  price.price = price.price * 1000
   return http({
     method: 'PUT',
     url: priceUrl,

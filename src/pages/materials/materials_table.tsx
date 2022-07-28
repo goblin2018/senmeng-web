@@ -1,4 +1,5 @@
-import { Button, notification, Popconfirm, Table, Tooltip } from 'antd'
+import { CopyFilled, CopyOutlined, CopyTwoTone } from '@ant-design/icons'
+import { Button, message, notification, Popconfirm, Table, Tooltip } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import API from 'api'
 import { Materials } from 'api/materials'
@@ -7,7 +8,7 @@ import { setCurrentMaterials } from 'pages/price/priceSlice'
 import { changeSupplierPage } from 'pages/supplier/suppliersSlice'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { listMaterials, setEditMaterials } from './materialsSlice'
+import { copyMaterials, listMaterials, setEditMaterials } from './materialsSlice'
 
 const MaterialsTable = () => {
   const columns: ColumnsType<Materials> = [
@@ -110,6 +111,15 @@ const MaterialsTable = () => {
                 删除
               </Button>
             </Popconfirm>
+
+            <Button
+              shape="circle"
+              icon={<CopyTwoTone />}
+              onClick={() => {
+                message.success('复制物料信息成功')
+                dispatch(copyMaterials(record))
+              }}
+            />
           </div>
         )
       }

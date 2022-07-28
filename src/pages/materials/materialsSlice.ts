@@ -16,6 +16,7 @@ export interface MaterialsState {
   allSuppliers?: Supplier[]
   isEdit?: boolean
   editMaterials?: Materials
+  copyMaterials?: Materials
   currentPage?: number
   searchOption?: SearchOption
 }
@@ -75,6 +76,12 @@ const materialsSlice = createSlice({
     updateMaterialsSearchOptions: (state, action: PayloadAction<SearchOption>) => {
       state.searchOption = action.payload
       state.currentPage = 1
+    },
+    copyMaterials: (state, action: PayloadAction<Materials>) => {
+      state.copyMaterials = action.payload
+    },
+    clearCopyMaterials: state => {
+      state.copyMaterials = undefined
     },
     updateMaterialsList: {
       reducer(state, action: PayloadAction<MaterialsState>) {
@@ -159,6 +166,8 @@ export const {
   closeMaterialsModal,
   updateMaterialsList,
   setEditMaterials,
-  changeMaterialsPage
+  changeMaterialsPage,
+  copyMaterials,
+  clearCopyMaterials
 } = materialsSlice.actions
 export default materialsSlice.reducer

@@ -97,7 +97,7 @@ const priceSlice = createSlice({
         items.forEach(it => {
           it.key = it.id
           // 处理价格问题
-          it.price = it.price / 100
+          it.price = it.price / 1000
         })
         state.items = items
       }

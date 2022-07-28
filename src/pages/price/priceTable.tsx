@@ -31,7 +31,8 @@ const PriceTable = () => {
       key: 'taxedPrice',
       width: 120,
       align: 'center',
-      render: (v, p) => (currentMaterials?.tax ? p.price * (1 + currentMaterials.tax / 100) : '')
+      render: (v, p) =>
+        currentMaterials?.tax ? Math.round(p.price * (1 + currentMaterials.tax / 100) * 1000) / 1000 : ''
     },
     {
       title: '状态',

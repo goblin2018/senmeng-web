@@ -42,7 +42,6 @@ const PriceModal: React.FC<Props> = ({ moq = 0, listPrice }) => {
     d.setMilliseconds(0)
     p.date = d
     p.price = parseFloat(p.price)
-    p.price = Math.floor(p.price * 100) / 100
 
     p.moqId = currentMoqID
 

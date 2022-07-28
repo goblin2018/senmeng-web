@@ -1,18 +1,17 @@
-import { Form, Input, InputNumber, Modal, notification, Select } from 'antd'
+import { Button, Form, Input, InputNumber, message, Modal, notification, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { closeMaterialsModal, listMaterials } from './materialsSlice'
+import { clearCopyMaterials, closeMaterialsModal, listMaterials } from './materialsSlice'
 import API from 'api'
 import { notifyCode } from 'utils/errcode'
 import { Materials } from 'api/materials'
+import { CopyTwoTone } from '@ant-design/icons'
 
 const { Item } = Form
 const { Option } = Select
 const MaterialsModal = () => {
   const dispatch = useAppDispatch()
-  const visible = useAppSelector(state => state.materials.showModal)
-  const isEdit = useAppSelector(state => state.materials.isEdit)
-  const editMaterials = useAppSelector(state => state.materials.editMaterials)
+  const { showModal: visible, isEdit, editMaterials, copyMaterials } = useAppSelector(state => state.materials)
   const cancel = () => {
     dispatch(closeMaterialsModal())
   }
@@ -69,6 +68,8 @@ const MaterialsModal = () => {
           ...editMaterials,
           ...m
         }
+        newM.tax = parseInt(mForm.getFieldValue('tax'))
+        console.log('get new material', newM)
 
         API.updateMaterials(newM).then(res => {
           let r = notifyCode(
@@ -135,6 +136,22 @@ const MaterialsModal = () => {
           onKeyUp={handleKeyUp}
           autoComplete="off"
         >
+          {!isEdit && copyMaterials ? (
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<CopyTwoTone />}
+              onClick={() => {
+                message.success('粘贴物料信息')
+
+                let cm = { ...copyMaterials }
+                cm.supplier = undefined
+                cm.tax = 0
+                mForm.setFieldsValue(copyMaterials)
+                dispatch(clearCopyMaterials())
+              }}
+            />
+          ) : null}
           <Item
             label="物料名称"
             name="name"
