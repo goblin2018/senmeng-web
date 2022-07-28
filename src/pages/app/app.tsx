@@ -111,7 +111,9 @@ const AppHome = () => {
   const getSerieName = (it: Moq) => {
     return (
       (it.materials?.supplier?.abbr || it.materials?.supplier?.name) +
-      ': ' +
+      ':' +
+      it.materials?.code +
+      ':' +
       (it.materials?.short_name || it.materials?.name) +
       ': ' +
       it.moq

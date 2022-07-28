@@ -83,7 +83,9 @@ const MaterialsModal = () => {
           }
         })
       } else {
-        let m = mForm.getFieldsValue() as Materials
+        let m = mForm.getFieldsValue()
+
+        m.tax = parseInt(m.tax)
 
         API.addMaterials(m).then(res => {
           let r = notifyCode(

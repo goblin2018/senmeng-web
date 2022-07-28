@@ -34,15 +34,17 @@ const PriceModal: React.FC<Props> = ({ moq = 0, listPrice }) => {
   }, [visible, isEdit])
 
   const formToPrice = (): Price => {
-    let p = pForm.getFieldsValue() as Price
+    let p = pForm.getFieldsValue()
     let d = pForm.getFieldValue('date').toDate() as Date
     d.setHours(0)
     d.setMinutes(0)
     d.setSeconds(0)
     d.setMilliseconds(0)
     p.date = d
-    p.moq_id = currentMoqID!
+    p.price = parseFloat(p.price)
     p.price = Math.floor(p.price * 100) / 100
+
+    p.moqId = currentMoqID
 
     return p
   }
