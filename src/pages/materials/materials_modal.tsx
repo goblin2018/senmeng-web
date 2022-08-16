@@ -117,6 +117,11 @@ const MaterialsModal = () => {
     }
   }
 
+  const changeSupplier = v => {
+    let su = suppliers?.find(s => s.id === v)
+    mForm.setFieldsValue({ tax: su?.tax })
+  }
+
   return (
     <>
       <Modal
@@ -153,6 +158,16 @@ const MaterialsModal = () => {
             />
           ) : null}
           <Item
+            label="物料编码"
+            name="code"
+            rules={[{ required: true, message: '请输入物料编码' }]}
+            getValueFromEvent={v => {
+              return v.target.value.trim()
+            }}
+          >
+            <Input className="iii" />
+          </Item>
+          <Item
             label="物料名称"
             name="name"
             rules={[{ required: true, message: '请输入物料名称' }]}
@@ -171,21 +186,13 @@ const MaterialsModal = () => {
           >
             <Input className="iii" />
           </Item>
-          <Item
-            label="物料编码"
-            name="code"
-            rules={[{ required: true, message: '请输入物料编码' }]}
-            getValueFromEvent={v => {
-              return v.target.value.trim()
-            }}
-          >
-            <Input className="iii" />
-          </Item>
+
           <Item label="供应商" name={['supplier', 'id']} rules={[{ required: true, message: '请选择供应商' }]}>
             <Select
               showSearch
               filterOption={(input, option) => (option as any).children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               disabled={isEdit}
+              onChange={changeSupplier}
             >
               {suppliers?.map(s => (
                 <Option value={s.id} key={s.id}>
