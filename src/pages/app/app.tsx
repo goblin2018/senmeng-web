@@ -174,7 +174,7 @@ const AppHome = () => {
 
       if (it.priceList) {
         it.priceList.forEach(p => {
-          ds.push([p.date, p.price / 100])
+          ds.push([p.date, p.price / 1000])
         })
       }
       serie.data = ds

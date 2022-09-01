@@ -62,7 +62,15 @@ const MaterialsTable = () => {
       title: '供应商',
       dataIndex: ['supplier', 'name'],
       key: 'supplier_id',
-      width: 250
+      ellipsis: {
+        showTitle: false
+      },
+      width: 250,
+      render: text => (
+        <Tooltip placement="topLeft" title={text}>
+          {text}
+        </Tooltip>
+      )
     },
     {
       title: '税率',
