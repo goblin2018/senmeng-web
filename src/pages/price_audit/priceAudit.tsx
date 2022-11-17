@@ -1,7 +1,9 @@
 import { Button, Card, notification, Pagination, Popconfirm, Tag } from 'antd'
 import Table, { ColumnsType } from 'antd/lib/table'
 import API from 'api'
+import { Moq } from 'api/moq'
 import { Price, PriceStatus } from 'api/price'
+import { Supplier } from 'api/supplier'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import moment from 'moment'
 import PriceModal from 'pages/price/priceModal'
@@ -30,17 +32,28 @@ const PriceAuditPage = () => {
       render: (text, record, index) => index + 1
     },
     {
+      title: '物料编码',
+      dataIndex: ['moq', 'materials', 'code'],
+      key: 'code',
+      width: 120,
+      align: 'center'
+    },
+    {
       title: '物料名称',
       dataIndex: ['moq', 'materials', 'name'],
       key: 'materialsName',
-      width: 300
+      width: 200
     },
     {
       title: '厂家',
-      dataIndex: ['moq', 'materials', 'supplier', 'abbr'],
+      dataIndex: 'abbr',
       key: 'price',
-      width: 160,
-      align: 'center'
+      width: 260,
+      align: 'center',
+      render: (text, record) => {
+        let supplier = record.moq?.materials?.supplier
+        return supplier?.abbr || supplier?.name
+      }
     },
     {
       title: '价格',
